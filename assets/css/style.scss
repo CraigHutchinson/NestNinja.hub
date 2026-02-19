@@ -833,6 +833,7 @@ hr {
   max-width: 1100px;
   margin: 0 auto;
   padding: 1rem 1.25rem 3rem;
+  color: #1e293b; /* explicit base — prevents white-on-white from parent dark theme */
 }
 
 .feed-page-back {
