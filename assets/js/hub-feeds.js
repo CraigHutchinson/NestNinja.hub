@@ -209,6 +209,22 @@
     return feeds.filter(function (feed) { return pillFn(feed); });
   }
 
+  /* ── Card navigation ────────────────────────────────────────────────────── */
+  /* Clicking anywhere on a card navigates to the feed page.
+     Clicks on <a>, <button>, or <iframe> (play overlay, YouTube link, title
+     link) are ignored so those elements remain independently clickable. */
+  function attachCardNavigation(container) {
+    container.querySelectorAll('.hub-feed-card').forEach(function (card) {
+      var titleLink = card.querySelector('.hub-feed-title-link');
+      if (!titleLink) return;
+      var href = titleLink.getAttribute('href');
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a, button, iframe')) return;
+        window.location.href = href;
+      });
+    });
+  }
+
   /* ── Data loader ────────────────────────────────────────────────────────── */
   /* Reads from feeds-db.js. Swap Promise.resolve for a fetch() when going live. */
   function loadFeeds() {
@@ -247,6 +263,7 @@
         : '<p class="hub-no-results">No feeds match — <a href="/search/">clear filters</a></p>';
       if (countEl) countEl.textContent = visible.length;
       attachPlayBehaviour(grid);
+      attachCardNavigation(grid);
     }
 
     /* Filter pill wiring */
