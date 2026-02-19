@@ -197,57 +197,22 @@
   /* deduplicate by label */
   ].filter((item, idx, arr) => arr.findIndex(x => x.label === item.label) === idx);
 
-  /* Aliases: maps taxonomic/common terms to internal species group keys.
-     Only FAMILY/GROUP-level synonyms — individual species names omitted so
-     label-text matching handles them directly. Plurals omitted — the lookup
-     below uses bidirectional prefix matching so 'gulls' → 'gull', etc.
-     Irregular plurals (geese) and distinct synonyms (waterfowl) are kept. */
-  const GROUP_ALIASES = {
-    // raptors
-    'bird of prey':  'raptors',
-    'birds-of-prey': 'raptors',
-    'corvid':        'raptors',
-    // owls
-    'night bird':    'owls',
-    // finches & buntings
-    'bunting':       'finches',
-    // small passerines
-    'garden bird':   'small-passerines',
-    // flycatchers, chats & thrushes
-    'chat':          'flycatchers',
-    'thrush':        'flycatchers',
-    // hirundines
-    'swift':         'hirundines',
-    'swallow':       'hirundines',
-    'martin':        'hirundines',
-    // waterbirds
-    'duck':          'waterbirds',
-    'waterfowl':     'waterbirds',
-    'water bird':    'waterbirds',
-    // seabirds
-    'sea bird':      'seabirds',
-    'gull':          'seabirds',
-    'tern':          'seabirds',
-    'auk':           'seabirds',
-    // fowl & poultry
-    'poultry':       'fowl',
-    'chicken':       'fowl',
-    'hen':           'fowl',
-    'cockerel':      'fowl',
-    'coop':          'fowl',
-    'chicken coop':  'fowl',
-    'goose':         'fowl',
-    'geese':         'fowl',
-    'guinea':        'fowl',
-    'game bird':     'fowl',
-    'farmyard':      'fowl',
-    'farmyard bird': 'fowl',
-    // warblers
-    'leaf warbler':  'warblers',
-    // countryside, open land & waders
-    'wader':         'countryside',
-    'shorebird':     'countryside',
-  };
+  /* Aliases: [aliases] → group. Plurals omitted — bidirectional prefix lookup
+     handles them. Irregular plurals (geese) and synonyms (waterfowl) kept. */
+  const GROUP_ALIASES = Object.fromEntries([
+    [['bird of prey', 'birds-of-prey', 'corvid'],                                        'raptors'],
+    [['night bird'],                                                                       'owls'],
+    [['bunting'],                                                                          'finches'],
+    [['garden bird'],                                                                      'small-passerines'],
+    [['chat', 'thrush'],                                                                   'flycatchers'],
+    [['swift', 'swallow', 'martin'],                                                       'hirundines'],
+    [['duck', 'waterfowl', 'water bird'],                                                  'waterbirds'],
+    [['sea bird', 'gull', 'tern', 'auk'],                                                  'seabirds'],
+    [['poultry', 'chicken', 'hen', 'cockerel', 'coop', 'chicken coop',
+      'goose', 'geese', 'guinea', 'game bird', 'farmyard', 'farmyard bird'],               'fowl'],
+    [['leaf warbler'],                                                                     'warblers'],
+    [['wader', 'shorebird'],                                                               'countryside'],
+  ].flatMap(([keys, group]) => keys.map(k => [k, group])));
 
   /* Environments — type:'environment' injected by .map(); entries are [key, label, note] */
   const ENVIRONMENTS = [
