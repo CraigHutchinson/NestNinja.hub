@@ -15,6 +15,8 @@
     { label: '🐦 Long-tailed Tit',    type: 'species', note: 'Builds own domed nest; uses boxes to roost' },
     { label: '🐦 Nuthatch',           type: 'species', note: 'Plasters mud around the entrance to fit' },
     { label: '🐦 Treecreeper',        type: 'species', note: 'Needs wedge-shaped open-back box' },
+    { label: '🐦 Willow Tit',         type: 'species', note: 'Critically declining; excavates own cavity in rotting wood' },
+    { label: '🐦 Crested Tit',        type: 'species', note: 'Scotland only; Caledonian pine forests; uses nest boxes' },
   ];
 
   /* Sparrows & small garden passerines */
@@ -27,6 +29,13 @@
     { label: '🐦 Pied Wagtail',       type: 'species', note: 'Open-fronted box in farmyards/buildings' },
     { label: '🐦 Grey Wagtail',       type: 'species', note: 'Open-fronted box near fast-moving streams' },
     { label: '🐦 Dipper',             type: 'species', note: 'Open-fronted box over upland streams' },
+    { label: '🐦 Dunnock',            type: 'species', note: 'Hedge Sparrow; very common garden & hedgerow bird' },
+    { label: '🐦 Song Thrush',        type: 'species', note: 'Red-listed; uses anvil stone to smash snails' },
+    { label: '🐦 Mistle Thrush',      type: 'species', note: 'Largest UK thrush; sings boldly in bad weather' },
+    { label: '🐦 Goldcrest',          type: 'species', note: 'Smallest UK bird; conifer woodland & gardens' },
+    { label: '🐦 Waxwing',            type: 'species', note: 'Irruption winter visitor; berries in carparks & hedges' },
+    { label: '🐦 Nightingale',        type: 'species', note: 'Declining summer visitor; remarkable nocturnal song' },
+    { label: '🐦 Ring-necked Parakeet', type: 'species', note: 'Naturalised; common SE England gardens; uses nest boxes' },
   ];
 
   /* Finches & buntings */
@@ -57,6 +66,12 @@
     { label: '🐦 Common Redstart',    type: 'species', note: 'Striking red tail; Welsh & northern woodlands' },
     { label: '🐦 Black Redstart',     type: 'species', note: 'Urban specialist; industrial brownfield sites' },
     { label: '🐦 Blackbird',          type: 'species', note: 'Open-fronted box in dense shrubs' },
+    { label: '🐦 Fieldfare',          type: 'species', note: 'Winter visitor from Scandinavia; hawthorn berry specialist' },
+    { label: '🐦 Redwing',            type: 'species', note: 'Winter visitor; smallest UK thrush; ivy berry favoured' },
+    { label: '🐦 Ring Ouzel',         type: 'species', note: 'Mountain Blackbird; upland summer visitor; declining' },
+    { label: '🐦 Stonechat',          type: 'species', note: 'Year-round on heathland & coastal scrub' },
+    { label: '🐦 Whinchat',           type: 'species', note: 'Summer visitor to upland & rough grassland; declining' },
+    { label: '🐦 Wheatear',           type: 'species', note: 'First spring migrant; upland & coastal; nests in cavities' },
   ];
 
   /* Swifts, swallows & martins */
@@ -67,18 +82,60 @@
     { label: '🐦 Sand Martin',        type: 'species', note: 'Colonial burrow boxes in earth banks' },
   ];
 
+  /* Warblers */
+  const SPECIES_WARBLERS = [
+    { label: '🐦 Blackcap',            type: 'species', note: 'Very common; increasingly overwinters; easy to see' },
+    { label: '🐦 Garden Warbler',      type: 'species', note: 'Plain but lovely song; common woodland & scrub' },
+    { label: '🐦 Whitethroat',         type: 'species', note: 'Most common UK Sylvia; hedgerows & farmland scrub' },
+    { label: '🐦 Lesser Whitethroat',  type: 'species', note: 'Common but skulking; rattle song; overgrown hedges' },
+    { label: '🐦 Chiffchaff',          type: 'species', note: 'First spring migrant; "chiff-chaff" song; widespread' },
+    { label: '🐦 Willow Warbler',      type: 'species', note: 'Most abundant summer visitor; declining in south' },
+    { label: '🐦 Wood Warbler',        type: 'species', note: 'Declining sessile oak woodland specialist; shivering song' },
+    { label: '🐦 Sedge Warbler',       type: 'species', note: 'Wetland scrub; loud varied song; mimics other birds' },
+    { label: '🐦 Reed Warbler',        type: 'species', note: 'Reed-bed specialist; main Cuckoo host in England' },
+    { label: '🐦 Grasshopper Warbler', type: 'species', note: 'Reeling insect-like song; wet grassland & scrub' },
+    { label: "🐦 Cetti's Warbler",     type: 'species', note: 'Loud explosive song; resident; expanding northward' },
+    { label: '🐦 Dartford Warbler',    type: 'species', note: 'Heathland specialist; southern England; year-round' },
+  ];
+
+  /* Countryside — open land, waders, pigeons & cuckoo */
+  const SPECIES_COUNTRYSIDE = [
+    { label: '🐦 Woodpigeon',          type: 'species', note: 'Most abundant UK breeding bird; gardens & farmland' },
+    { label: '🕊️ Collared Dove',      type: 'species', note: 'Ubiquitous garden dove; colonised UK from 1950s' },
+    { label: '🕊️ Turtle Dove',        type: 'species', note: 'Red-listed; summer visitor; dramatically declining' },
+    { label: '🐦 Cuckoo',              type: 'species', note: 'Declining migrant; brood parasite; iconic call' },
+    { label: '🐦 Skylark',             type: 'species', note: 'Red-listed; song-flight icon; arable farmland' },
+    { label: '🐦 Lapwing',             type: 'species', note: 'Red-listed; peewit call; declining farmland wader' },
+    { label: '🐦 Curlew',              type: 'species', note: 'Red-listed; at-risk upland & coastal wader' },
+    { label: '🐦 Woodcock',            type: 'species', note: 'Woodland wader; roding display at dusk' },
+    { label: '🐦 Snipe',               type: 'species', note: 'Wetland wader; drumming aerial display' },
+    { label: '🐦 Nightjar',            type: 'species', note: 'Heathland; churring nocturnal migrant; declining' },
+    { label: '🐦 Red Grouse',          type: 'species', note: 'Iconic Scottish moor bird; endemic UK subspecies' },
+    { label: '🐦 Capercaillie',        type: 'species', note: 'Critically endangered; Scottish Caledonian pine' },
+  ];
+
   /* Owls */
   const SPECIES_OWLS = [
     { label: '🦉 Barn Owl',           type: 'species', note: 'Tall open box on pole or inside barn' },
     { label: '🦉 Tawny Owl',          type: 'species', note: 'Woodland owl; large chimney-style box' },
     { label: '🦉 Little Owl',         type: 'species', note: 'Farmland edges; stone wall & pole boxes' },
     { label: '🦉 Long-eared Owl',     type: 'species', note: 'Conifer plantation; uses open basket platforms' },
+    { label: '🦉 Short-eared Owl',    type: 'species', note: 'Day-flying; open moorland, marsh & coastal grassland' },
   ];
 
   /* Raptors, corvids & woodpeckers */
   const SPECIES_RAPTORS = [
     { label: '🦅 Common Kestrel',          type: 'species', note: 'Open farmland; tall pole or tower boxes' },
     { label: '🦅 Peregrine Falcon',        type: 'species', note: 'Cliff ledge trays; now also urban buildings' },
+    { label: '🦅 Sparrowhawk',             type: 'species', note: 'Most common UK garden raptor; dashes through hedges' },
+    { label: '🦅 Buzzard',                 type: 'species', note: 'Now most common UK raptor; broad wings; mewing call' },
+    { label: '🦅 Red Kite',                type: 'species', note: 'Conservation success; forked tail; widespread in Wales & England' },
+    { label: '🦅 Osprey',                  type: 'species', note: 'Artificial nest platforms; Scottish lochs & rivers' },
+    { label: '🦅 Merlin',                  type: 'species', note: 'Smallest UK falcon; dashing flight over upland' },
+    { label: '🦅 Hobby',                   type: 'species', note: 'Summer visitor; uses old crow nests; hunts hirundines' },
+    { label: '🦅 Marsh Harrier',           type: 'species', note: 'Reed-bed hunter; recovering; glides on tilted wings' },
+    { label: '🦅 Hen Harrier',             type: 'species', note: 'Upland harrier; ghost-grey male; conservation controversy' },
+    { label: '🦅 Goshawk',                 type: 'species', note: 'Large secretive woodland raptor; rare breeder' },
     { label: '🐦 Carrion Crow',            type: 'species', note: 'Highly intelligent; uses ledges & large trees' },
     { label: '🐦 Hooded Crow',             type: 'species', note: 'Grey & black; replaces Carrion Crow in Scotland & Ireland' },
     { label: '🐦 Rook',                    type: 'species', note: 'Colonial treetop nester; rookeries in tall elms & beeches' },
@@ -101,6 +158,13 @@
     { label: '🦆 Common Merganser',   type: 'species', note: 'Same box spec as Goosander; river specialist' },
     { label: '🦆 Tufted Duck',        type: 'species', note: 'Ground nester near water; uses cover boxes' },
     { label: '🦆 Wood Duck',          type: 'species', note: 'Escaped breeder; takes Mandarin-style boxes' },
+    { label: '🦢 Mute Swan',          type: 'species', note: 'Unmistakable; common on rivers, lakes & parks' },
+    { label: '🦆 Mallard',            type: 'species', note: 'Most common UK duck; often nests in gardens near water' },
+    { label: '🦆 Teal',               type: 'species', note: 'Smallest UK dabbling duck; wetland & river margins' },
+    { label: '🐦 Moorhen',            type: 'species', note: 'Very common; red forehead shield; streamsides & ponds' },
+    { label: '🐦 Coot',               type: 'species', note: 'White bill & forehead; open water nester' },
+    { label: '🐦 Grey Heron',         type: 'species', note: 'Very common; patient fisher; colonial treetop nester' },
+    { label: '🐦 Little Egret',       type: 'species', note: 'Now common; colonial nester; white with yellow feet' },
     { label: '🐦 Kingfisher',         type: 'species', note: 'Tunnel box in river bank; requires specialist setup' },
   ];
 
@@ -149,16 +213,18 @@
 
   /* Merge all species groups — each entry is tagged with its category */
   const SPECIES = [
-    ...SPECIES_TITS.map(s        => ({ ...s, group: 'tits' })),
-    ...SPECIES_GARDEN.map(s      => ({ ...s, group: 'small-passerines' })),
-    ...SPECIES_FINCHES.map(s     => ({ ...s, group: 'finches' })),
-    ...SPECIES_FLYCATCHERS.map(s => ({ ...s, group: 'flycatchers' })),
-    ...SPECIES_HIRUNDINES.map(s  => ({ ...s, group: 'hirundines' })),
-    ...SPECIES_OWLS.map(s        => ({ ...s, group: 'owls' })),
-    ...SPECIES_RAPTORS.map(s     => ({ ...s, group: 'raptors' })),
-    ...SPECIES_WATER.map(s       => ({ ...s, group: 'waterbirds' })),
-    ...SPECIES_SEABIRDS.map(s    => ({ ...s, group: 'seabirds' })),
-    ...SPECIES_FOWL.map(s        => ({ ...s, group: 'fowl' })),
+    ...SPECIES_TITS.map(s          => ({ ...s, group: 'tits' })),
+    ...SPECIES_GARDEN.map(s        => ({ ...s, group: 'small-passerines' })),
+    ...SPECIES_FINCHES.map(s       => ({ ...s, group: 'finches' })),
+    ...SPECIES_FLYCATCHERS.map(s   => ({ ...s, group: 'flycatchers' })),
+    ...SPECIES_HIRUNDINES.map(s    => ({ ...s, group: 'hirundines' })),
+    ...SPECIES_WARBLERS.map(s      => ({ ...s, group: 'warblers' })),
+    ...SPECIES_COUNTRYSIDE.map(s   => ({ ...s, group: 'countryside' })),
+    ...SPECIES_OWLS.map(s          => ({ ...s, group: 'owls' })),
+    ...SPECIES_RAPTORS.map(s       => ({ ...s, group: 'raptors' })),
+    ...SPECIES_WATER.map(s         => ({ ...s, group: 'waterbirds' })),
+    ...SPECIES_SEABIRDS.map(s      => ({ ...s, group: 'seabirds' })),
+    ...SPECIES_FOWL.map(s          => ({ ...s, group: 'fowl' })),
   /* deduplicate by label */
   ].filter((item, idx, arr) => arr.findIndex(x => x.label === item.label) === idx);
 
@@ -294,6 +360,41 @@
     'gamebirds':        'fowl',
     'farmyard':         'fowl',
     'farmyard bird':    'fowl',
+    // warblers
+    'warbler':          'warblers',
+    'warblers':         'warblers',
+    'leaf warbler':     'warblers',
+    'chiffchaff':       'warblers',
+    'blackcap':         'warblers',
+    'whitethroat':      'warblers',
+    // countryside, open land & waders
+    'countryside':      'countryside',
+    'wader':            'countryside',
+    'waders':           'countryside',
+    'shorebird':        'countryside',
+    'cuckoo':           'countryside',
+    'skylark':          'countryside',
+    'lapwing':          'countryside',
+    'curlew':           'countryside',
+    'grouse':           'countryside',
+    'grouses':          'countryside',
+    'woodpigeon':       'countryside',
+    'pigeon':           'countryside',
+    'pigeons':          'countryside',
+    'dove':             'countryside',
+    'doves':            'countryside',
+    'nightjar':         'countryside',
+    // raptors — additional specifics
+    'sparrowhawk':      'raptors',
+    'buzzard':          'raptors',
+    'red kite':         'raptors',
+    'kite':             'raptors',
+    'osprey':           'raptors',
+    'harrier':          'raptors',
+    'harriers':         'raptors',
+    'merlin':           'raptors',
+    'hobby':            'raptors',
+    'goshawk':          'raptors',
   };
 
   const ENVIRONMENTS = [
@@ -316,21 +417,21 @@
 
   /* Maps habitat key → species group keys commonly found there */
   const HABITAT_GROUPS = {
-    'garden':         ['tits', 'small-passerines', 'finches', 'hirundines', 'flycatchers'],
-    'woodland':       ['tits', 'finches', 'flycatchers', 'raptors', 'owls'],
-    'conifer':        ['tits', 'finches', 'owls'],
-    'farmland':       ['small-passerines', 'finches', 'raptors', 'owls', 'fowl'],
-    'wetland':        ['waterbirds', 'small-passerines', 'seabirds'],
+    'garden':         ['tits', 'small-passerines', 'finches', 'hirundines', 'flycatchers', 'warblers', 'countryside'],
+    'woodland':       ['tits', 'finches', 'flycatchers', 'warblers', 'raptors', 'owls'],
+    'conifer':        ['tits', 'finches', 'owls', 'countryside'],
+    'farmland':       ['small-passerines', 'finches', 'raptors', 'owls', 'fowl', 'countryside'],
+    'wetland':        ['waterbirds', 'small-passerines', 'seabirds', 'warblers', 'countryside'],
     'river':          ['waterbirds', 'small-passerines'],
     'lake':           ['waterbirds', 'seabirds'],
-    'estuary':        ['waterbirds', 'seabirds'],
-    'coastal':        ['seabirds', 'raptors'],
+    'estuary':        ['waterbirds', 'seabirds', 'countryside'],
+    'coastal':        ['seabirds', 'raptors', 'countryside'],
     'urban':          ['small-passerines', 'hirundines', 'seabirds', 'raptors'],
-    'heathland':      ['finches', 'raptors', 'owls', 'small-passerines'],
-    'upland':         ['finches', 'raptors', 'owls'],
-    'grassland':      ['finches', 'raptors', 'owls', 'small-passerines'],
-    'hedgerow':       ['finches', 'small-passerines', 'flycatchers', 'tits'],
-    'nature-reserve': ['tits', 'finches', 'flycatchers', 'waterbirds', 'seabirds', 'raptors', 'owls'],
+    'heathland':      ['finches', 'raptors', 'owls', 'small-passerines', 'warblers', 'countryside'],
+    'upland':         ['finches', 'raptors', 'owls', 'countryside'],
+    'grassland':      ['finches', 'raptors', 'owls', 'small-passerines', 'countryside'],
+    'hedgerow':       ['finches', 'small-passerines', 'flycatchers', 'tits', 'warblers', 'countryside'],
+    'nature-reserve': ['tits', 'finches', 'flycatchers', 'warblers', 'waterbirds', 'seabirds', 'raptors', 'owls', 'countryside'],
   };
 
   /* Reverse lookup: species group key → array of habitat keys (inverts HABITAT_GROUPS) */
@@ -473,16 +574,18 @@
   /* One entry per species group, count derived live from SPECIES array */
   function countGroup(g) { return SPECIES.filter(s => s.group === g).length; }
   const SPECIES_GROUP_HINTS = [
-    { label: '🐦 Finches & Buntings',    type: 'hint', search: 'finches',        note: countGroup('finches')        + ' species' },
-    { label: '🐦 Flycatchers & Chats',   type: 'hint', search: 'flycatchers',    note: countGroup('flycatchers')    + ' species' },
-    { label: '🐾 Fowl & Poultry',         type: 'hint', search: 'fowl',            note: countGroup('fowl')            + ' species' },
-    { label: '🐦 Hirundines & Swifts',   type: 'hint', search: 'hirundines',     note: countGroup('hirundines')     + ' species' },
-    { label: '🦉 Owls',                   type: 'hint', search: 'owls',            note: countGroup('owls')            + ' species' },
-    { label: '🦅 Raptors & Corvids',      type: 'hint', search: 'raptors',         note: countGroup('raptors')         + ' species' },
-    { label: '🐦 Seabirds & Gulls',       type: 'hint', search: 'seabirds',        note: countGroup('seabirds')        + ' species' },
-    { label: '🐦 Small Passerines',       type: 'hint', search: 'garden birds',    note: countGroup('small-passerines') + ' species' },
-    { label: '🐦 Tits & Woodland',        type: 'hint', search: 'tits',            note: countGroup('tits')            + ' species' },
-    { label: '🦆 Waterbirds & Ducks',     type: 'hint', search: 'waterbirds',      note: countGroup('waterbirds')      + ' species' },
+    { label: '🐦 Countryside & Open Land', type: 'hint', search: 'countryside',   note: countGroup('countryside')      + ' species' },
+    { label: '🐦 Finches & Buntings',      type: 'hint', search: 'finches',       note: countGroup('finches')          + ' species' },
+    { label: '🐦 Flycatchers & Thrushes',  type: 'hint', search: 'flycatchers',   note: countGroup('flycatchers')      + ' species' },
+    { label: '🐾 Fowl & Poultry',           type: 'hint', search: 'fowl',          note: countGroup('fowl')             + ' species' },
+    { label: '🐦 Hirundines & Swifts',     type: 'hint', search: 'hirundines',    note: countGroup('hirundines')       + ' species' },
+    { label: '🦉 Owls',                     type: 'hint', search: 'owls',          note: countGroup('owls')             + ' species' },
+    { label: '🦅 Raptors & Corvids',        type: 'hint', search: 'raptors',       note: countGroup('raptors')          + ' species' },
+    { label: '🐦 Seabirds & Gulls',         type: 'hint', search: 'seabirds',      note: countGroup('seabirds')         + ' species' },
+    { label: '🐦 Small Passerines',         type: 'hint', search: 'garden birds',  note: countGroup('small-passerines') + ' species' },
+    { label: '🐦 Tits & Woodland',          type: 'hint', search: 'tits',          note: countGroup('tits')             + ' species' },
+    { label: '🦆 Waterbirds & Ducks',       type: 'hint', search: 'waterbirds',    note: countGroup('waterbirds')       + ' species' },
+    { label: '🐦 Warblers',                 type: 'hint', search: 'warblers',      note: countGroup('warblers')         + ' species' },
   ];
 
   /* Maps typed terms to a result-set strategy: { type } filters by item type,
