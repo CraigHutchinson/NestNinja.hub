@@ -134,7 +134,7 @@
       ['🐦 Magpie',                  'Dome-shaped stick nest in dense shrubs & trees'],
       ['🐦 Jay',                     'Secretive woodland corvid; acorn specialist'],
       ['🐦‍⬛ Chough',                 'Red bill & legs; cliff caves & old mine entrances'],
-      ['�️ Stock Dove',            'Farmland; uses barn-owl style boxes'],
+      ['🕊️ Stock Dove',            'Farmland; uses barn-owl style boxes'],
       ['🐦 Great Spotted Woodpecker', 'Excavates own holes; may enlarge box entrance'],
       ['🐦 Lesser Spotted Woodpecker', 'Tiny; declining woodland specialist'],
       ['🐦 Green Woodpecker',      'Ant specialist; rarely uses boxes'],
@@ -198,77 +198,55 @@
   ].filter((item, idx, arr) => arr.findIndex(x => x.label === item.label) === idx);
 
   /* Aliases: maps taxonomic/common terms to internal species group keys.
-     Only include FAMILY/GROUP-level synonyms — individual species names are
-     intentionally omitted so label-text matching finds them directly.
-     Group-key substrings (e.g. 'raptor' for group 'raptors') are also omitted
-     because the item-level filter already checks group.includes(query).
-     Habitat & environment terms are intentionally excluded here — they resolve
-     via label-text search against the ENVIRONMENTS array instead. */
+     Only FAMILY/GROUP-level synonyms — individual species names omitted so
+     label-text matching handles them directly. Plurals omitted — the lookup
+     below uses bidirectional prefix matching so 'gulls' → 'gull', etc.
+     Irregular plurals (geese) and distinct synonyms (waterfowl) are kept. */
   const GROUP_ALIASES = {
     // raptors
-    'bird of prey':     'raptors',
-    'birds of prey':    'raptors',
-    'birds-of-prey':    'raptors',
-    'corvid':           'raptors',
-    'corvids':          'raptors',
+    'bird of prey':  'raptors',
+    'birds-of-prey': 'raptors',
+    'corvid':        'raptors',
     // owls
-    'night bird':       'owls',
-    'night birds':      'owls',
+    'night bird':    'owls',
     // finches & buntings
-    'bunting':          'finches',
-    'buntings':         'finches',
+    'bunting':       'finches',
     // small passerines
-    'garden bird':      'small-passerines',
-    'garden birds':     'small-passerines',
+    'garden bird':   'small-passerines',
     // flycatchers, chats & thrushes
-    'chat':             'flycatchers',
-    'chats':            'flycatchers',
-    'thrush':           'flycatchers',
-    'thrushes':         'flycatchers',
+    'chat':          'flycatchers',
+    'thrush':        'flycatchers',
     // hirundines
-    'swift':            'hirundines',
-    'swifts':           'hirundines',
-    'swallow':          'hirundines',
-    'swallows':         'hirundines',
-    'martin':           'hirundines',
-    'martins':          'hirundines',
+    'swift':         'hirundines',
+    'swallow':       'hirundines',
+    'martin':        'hirundines',
     // waterbirds
-    'duck':             'waterbirds',
-    'ducks':            'waterbirds',
-    'waterfowl':        'waterbirds',
-    'water bird':       'waterbirds',
-    'water birds':      'waterbirds',
+    'duck':          'waterbirds',
+    'waterfowl':     'waterbirds',
+    'water bird':    'waterbirds',
     // seabirds
-    'sea bird':         'seabirds',
-    'sea birds':        'seabirds',
-    'gull':             'seabirds',
-    'gulls':            'seabirds',
-    'tern':             'seabirds',
-    'terns':            'seabirds',
-    'auk':              'seabirds',
-    'auks':             'seabirds',
+    'sea bird':      'seabirds',
+    'gull':          'seabirds',
+    'tern':          'seabirds',
+    'auk':           'seabirds',
     // fowl & poultry
-    'poultry':          'fowl',
-    'chicken':          'fowl',
-    'chickens':         'fowl',
-    'hen':              'fowl',
-    'hens':             'fowl',
-    'cockerel':         'fowl',
-    'coop':             'fowl',
-    'chicken coop':     'fowl',
-    'goose':            'fowl',
-    'geese':            'fowl',
-    'guinea':           'fowl',
-    'game bird':        'fowl',
-    'game birds':       'fowl',
-    'farmyard':         'fowl',
-    'farmyard bird':    'fowl',
+    'poultry':       'fowl',
+    'chicken':       'fowl',
+    'hen':           'fowl',
+    'cockerel':      'fowl',
+    'coop':          'fowl',
+    'chicken coop':  'fowl',
+    'goose':         'fowl',
+    'geese':         'fowl',
+    'guinea':        'fowl',
+    'game bird':     'fowl',
+    'farmyard':      'fowl',
+    'farmyard bird': 'fowl',
     // warblers
-    'leaf warbler':     'warblers',
+    'leaf warbler':  'warblers',
     // countryside, open land & waders
-    'wader':            'countryside',
-    'waders':           'countryside',
-    'shorebird':        'countryside',
+    'wader':         'countryside',
+    'shorebird':     'countryside',
   };
 
   /* Environments — type:'environment' injected by .map(); entries are [key, label, note] */
@@ -388,24 +366,18 @@
   ].map(([label, search, g]) => ({ label, type: 'hint', search, note: countGroup(g) + ' species' }));
 
   /* Maps typed terms to a result-set strategy: { type } filters by item type,
-     { hints } renders a fixed hint list, { group } delegates to GROUP_ALIASES */
+     { hints } renders a fixed hint list, { group } delegates to GROUP_ALIASES.
+     Partial prefix typing is handled by the lookup below — no plural duplicates needed. */
   const TYPE_ALIASES = {
-    'species':          { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
-    'species group':    { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
-    'species groups':   { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
-    'bird group':       { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
-    'bird groups':      { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
-    'groups':           { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
-    'location':         { type:  'location',           heading: 'All locations' },
-    'locations':        { type:  'location',           heading: 'All locations' },
-    'area':             { type:  'location',           heading: 'All locations' },
-    'areas':            { type:  'location',           heading: 'All locations' },
-    'region':           { type:  'location',           heading: 'All locations' },
-    'regions':          { type:  'location',           heading: 'All locations' },
-    'environment':      { type:  'environment',        heading: 'All environments' },
-    'environments':     { type:  'environment',        heading: 'All environments' },
-    'habitat':          { type:  'environment',        heading: 'All environments' },
-    'habitats':         { type:  'environment',        heading: 'All environments' },
+    'species':       { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
+    'species group': { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
+    'bird group':    { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
+    'groups':        { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
+    'location':      { type: 'location',           heading: 'All locations' },
+    'area':          { type: 'location',           heading: 'All locations' },
+    'region':        { type: 'location',           heading: 'All locations' },
+    'environment':   { type: 'environment',        heading: 'All environments' },
+    'habitat':       { type: 'environment',        heading: 'All environments' },
   };
 
   /* Popular picks shown before the user types */
@@ -513,8 +485,16 @@
   input.addEventListener('input', function () {
     const q = input.value.trim().toLowerCase();
     if (q.length < 1) { showDefaults(); return; }
-    /* 1. Check TYPE_ALIASES (locations / habitats / species groups) */
-    const typeAlias = TYPE_ALIASES[q];
+    /* 1. Check TYPE_ALIASES — partial prefix allowed: 'loc' → location, 'hab' → habitat.
+          Also accepts query extending beyond key: 'locations' matches 'location'.
+          Multiple matches: pick longest (most specific) key. */
+    const typeAlias = (function () {
+      const hits = Object.entries(TYPE_ALIASES)
+        .filter(([k]) => k.startsWith(q) || q.startsWith(k));
+      if (!hits.length) return null;
+      hits.sort((a, b) => b[0].length - a[0].length);
+      return hits[0][1];
+    })();
     if (typeAlias) {
       if (typeAlias.hints) { render(typeAlias.hints, typeAlias.heading); return; }
       render(ALL_SUGGESTIONS.filter(item => item.type === typeAlias.type), typeAlias.heading);
@@ -537,11 +517,12 @@
     /* 3. Check GROUP_ALIASES — exact first, then prefix-match for partial typing
           (e.g. 'rap' → raptors, 'fin' → finches, 'sea' → seabirds) */
     const targetGroup = GROUP_ALIASES[q] || null;
-    /* Collect all groups whose alias keys start with the query string */
+    /* Bidirectional prefix: covers partial typing ('gu' → gull) and over-typed
+       plurals ('gulls' → gull, 'waders' → wader, 'swallows' → swallow). */
     const partialGroups = targetGroup ? null : (function () {
       const found = new Set();
       Object.keys(GROUP_ALIASES).forEach(function (alias) {
-        if (alias.startsWith(q)) found.add(GROUP_ALIASES[alias]);
+        if (alias.startsWith(q) || q.startsWith(alias)) found.add(GROUP_ALIASES[alias]);
       });
       return found.size ? [...found] : null;
     })();
