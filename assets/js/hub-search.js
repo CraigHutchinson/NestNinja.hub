@@ -329,24 +329,118 @@
   });
 
   const LOCATIONS = [
-    { label: '📍 Yorkshire',       type: 'location' },
-    { label: '📍 Scotland',        type: 'location' },
-    { label: '📍 Wales',           type: 'location' },
-    { label: '📍 London',          type: 'location' },
-    { label: '📍 Cornwall',        type: 'location' },
-    { label: '📍 Lake District',   type: 'location' },
-    { label: '📍 Norfolk',         type: 'location' },
-    { label: '📍 Snowdonia',       type: 'location' },
-    { label: '📍 Peak District',   type: 'location' },
-    { label: '📍 New Forest',      type: 'location' },
-    { label: '📍 Bristol',         type: 'location' },
-    { label: '📍 Edinburgh',       type: 'location' },
-    { label: '📍 Manchester',      type: 'location' },
-    { label: '📍 Sheffield',       type: 'location' },
-    { label: '📍 Exeter',          type: 'location' },
-    { label: '📍 Aberdeenshire',   type: 'location' },
-    { label: '📍 Pembrokeshire',   type: 'location' },
-    { label: '📍 Northumberland',  type: 'location' },
+    /* ── England — South West ─────────────────────────────────────────── */
+    { label: '📍 Cornwall',              type: 'location', note: 'England' },
+    { label: '📍 Devon',                 type: 'location', note: 'England' },
+    { label: '📍 Somerset',              type: 'location', note: 'England' },
+    { label: '📍 Dorset',                type: 'location', note: 'England' },
+    { label: '📍 Wiltshire',             type: 'location', note: 'England' },
+    { label: '📍 Gloucestershire',       type: 'location', note: 'England' },
+    { label: '📍 Bristol',               type: 'location', note: 'England' },
+    /* ── England — South East ─────────────────────────────────────────── */
+    { label: '📍 Hampshire',             type: 'location', note: 'England' },
+    { label: '📍 Isle of Wight',         type: 'location', note: 'England' },
+    { label: '📍 Surrey',                type: 'location', note: 'England' },
+    { label: '📍 Kent',                  type: 'location', note: 'England' },
+    { label: '📍 East Sussex',           type: 'location', note: 'England' },
+    { label: '📍 West Sussex',           type: 'location', note: 'England' },
+    { label: '📍 Berkshire',             type: 'location', note: 'England' },
+    { label: '📍 Oxfordshire',           type: 'location', note: 'England' },
+    { label: '📍 Buckinghamshire',       type: 'location', note: 'England' },
+    { label: '📍 Hertfordshire',         type: 'location', note: 'England' },
+    { label: '📍 Bedfordshire',          type: 'location', note: 'England' },
+    { label: '📍 Essex',                 type: 'location', note: 'England' },
+    { label: '📍 Greater London',        type: 'location', note: 'England' },
+    /* ── England — East ───────────────────────────────────────────────── */
+    { label: '📍 Norfolk',               type: 'location', note: 'England' },
+    { label: '📍 Suffolk',               type: 'location', note: 'England' },
+    { label: '📍 Cambridgeshire',        type: 'location', note: 'England' },
+    { label: '📍 Lincolnshire',          type: 'location', note: 'England' },
+    /* ── England — East Midlands ──────────────────────────────────────── */
+    { label: '📍 Northamptonshire',      type: 'location', note: 'England' },
+    { label: '📍 Leicestershire',        type: 'location', note: 'England' },
+    { label: '📍 Rutland',               type: 'location', note: 'England' },
+    { label: '📍 Nottinghamshire',       type: 'location', note: 'England' },
+    { label: '📍 Derbyshire',            type: 'location', note: 'England' },
+    /* ── England — West Midlands ──────────────────────────────────────── */
+    { label: '📍 Staffordshire',         type: 'location', note: 'England' },
+    { label: '📍 Shropshire',            type: 'location', note: 'England' },
+    { label: '📍 Herefordshire',         type: 'location', note: 'England' },
+    { label: '📍 Worcestershire',        type: 'location', note: 'England' },
+    { label: '📍 Warwickshire',          type: 'location', note: 'England' },
+    /* ── England — Yorkshire & the Humber ────────────────────────────── */
+    { label: '📍 North Yorkshire',       type: 'location', note: 'England' },
+    { label: '📍 East Yorkshire',        type: 'location', note: 'England' },
+    { label: '📍 West Yorkshire',        type: 'location', note: 'England' },
+    { label: '📍 South Yorkshire',       type: 'location', note: 'England' },
+    /* ── England — North West ─────────────────────────────────────────── */
+    { label: '📍 Cheshire',              type: 'location', note: 'England' },
+    { label: '📍 Lancashire',            type: 'location', note: 'England' },
+    { label: '📍 Merseyside',            type: 'location', note: 'England' },
+    { label: '📍 Greater Manchester',    type: 'location', note: 'England' },
+    { label: '📍 Cumbria',              type: 'location', note: 'England' },
+    /* ── England — North East ─────────────────────────────────────────── */
+    { label: '📍 Northumberland',        type: 'location', note: 'England' },
+    { label: '📍 County Durham',         type: 'location', note: 'England' },
+    { label: '📍 Tyne & Wear',           type: 'location', note: 'England' },
+    /* ── England — National Parks ────────────────────────────────────── */
+    { label: '📍 Lake District',         type: 'location', note: 'National Park' },
+    { label: '📍 Peak District',         type: 'location', note: 'National Park' },
+    { label: '📍 New Forest',            type: 'location', note: 'National Park' },
+    { label: '📍 South Downs',           type: 'location', note: 'National Park' },
+    { label: '📍 Dartmoor',              type: 'location', note: 'National Park' },
+    { label: '📍 Exmoor',                type: 'location', note: 'National Park' },
+    { label: '📍 Yorkshire Dales',       type: 'location', note: 'National Park' },
+    { label: '📍 North York Moors',      type: 'location', note: 'National Park' },
+    { label: '📍 Broads',                type: 'location', note: 'National Park' },
+    /* ── Scotland ─────────────────────────────────────────────────────── */
+    { label: '📍 Highlands',             type: 'location', note: 'Scotland' },
+    { label: '📍 Aberdeenshire',         type: 'location', note: 'Scotland' },
+    { label: '📍 Moray',                 type: 'location', note: 'Scotland' },
+    { label: '📍 Angus',                 type: 'location', note: 'Scotland' },
+    { label: '📍 Perth & Kinross',       type: 'location', note: 'Scotland' },
+    { label: '📍 Fife',                  type: 'location', note: 'Scotland' },
+    { label: '📍 Lothian',               type: 'location', note: 'Scotland' },
+    { label: '📍 Scottish Borders',      type: 'location', note: 'Scotland' },
+    { label: '📍 Dumfries & Galloway',   type: 'location', note: 'Scotland' },
+    { label: '📍 Ayrshire',              type: 'location', note: 'Scotland' },
+    { label: '📍 Argyll & Bute',         type: 'location', note: 'Scotland' },
+    { label: '📍 Stirlingshire',         type: 'location', note: 'Scotland' },
+    { label: '📍 Lanarkshire',           type: 'location', note: 'Scotland' },
+    { label: '📍 Orkney Islands',        type: 'location', note: 'Scotland' },
+    { label: '📍 Shetland Islands',      type: 'location', note: 'Scotland' },
+    { label: '📍 Outer Hebrides',        type: 'location', note: 'Scotland' },
+    { label: '📍 Inner Hebrides',        type: 'location', note: 'Scotland' },
+    { label: '📍 Cairngorms',            type: 'location', note: 'National Park' },
+    { label: '📍 Loch Lomond',           type: 'location', note: 'National Park' },
+    /* ── Wales ────────────────────────────────────────────────────────── */
+    { label: '📍 Gwynedd',               type: 'location', note: 'Wales' },
+    { label: '📍 Anglesey',              type: 'location', note: 'Wales' },
+    { label: '📍 Conwy',                 type: 'location', note: 'Wales' },
+    { label: '📍 Denbighshire',          type: 'location', note: 'Wales' },
+    { label: '📍 Flintshire',            type: 'location', note: 'Wales' },
+    { label: '📍 Wrexham',               type: 'location', note: 'Wales' },
+    { label: '📍 Powys',                 type: 'location', note: 'Wales' },
+    { label: '📍 Ceredigion',            type: 'location', note: 'Wales' },
+    { label: '📍 Pembrokeshire',         type: 'location', note: 'Wales' },
+    { label: '📍 Carmarthenshire',       type: 'location', note: 'Wales' },
+    { label: '📍 Swansea',               type: 'location', note: 'Wales' },
+    { label: '📍 Neath Port Talbot',     type: 'location', note: 'Wales' },
+    { label: '📍 Bridgend',              type: 'location', note: 'Wales' },
+    { label: '📍 Vale of Glamorgan',     type: 'location', note: 'Wales' },
+    { label: '📍 Cardiff',               type: 'location', note: 'Wales' },
+    { label: '📍 Monmouthshire',         type: 'location', note: 'Wales' },
+    { label: '📍 Brecknockshire',        type: 'location', note: 'Wales' },
+    { label: '📍 Snowdonia',             type: 'location', note: 'National Park' },
+    { label: '📍 Brecon Beacons',        type: 'location', note: 'National Park' },
+    { label: '📍 Pembrokeshire Coast',   type: 'location', note: 'National Park' },
+    /* ── Northern Ireland ─────────────────────────────────────────────── */
+    { label: '📍 County Antrim',         type: 'location', note: 'Northern Ireland' },
+    { label: '📍 County Armagh',         type: 'location', note: 'Northern Ireland' },
+    { label: '📍 County Down',           type: 'location', note: 'Northern Ireland' },
+    { label: '📍 County Fermanagh',      type: 'location', note: 'Northern Ireland' },
+    { label: '📍 County Londonderry',    type: 'location', note: 'Northern Ireland' },
+    { label: '📍 County Tyrone',         type: 'location', note: 'Northern Ireland' },
   ];
 
   /* Merge and sort alphabetically by display text (stripping the emoji prefix) */
@@ -425,8 +519,8 @@
       h.setAttribute('aria-hidden', 'true');
       list.appendChild(h);
     }
-    /* Show more results for full-category views, cap at 8 for filtered searches */
-    const limit = heading ? 20 : 8;
+    /* No cap for full-category views (dropdown is scrollable); cap filtered searches */
+    const limit = heading ? Infinity : 8;
     matches.slice(0, limit).forEach(function (item, i) {
       /* Section divider — non-interactive inline heading injected into match arrays */
       if (item.type === 'section-heading') {
