@@ -612,11 +612,21 @@
       render(combined, matchedEnv.label.replace(/^.+? /, '') + ' — birds & habitat');
       return;
     }
-    /* 3. Check GROUP_ALIASES (raptors / owls / finches …) */
+    /* 3. Check GROUP_ALIASES — exact first, then prefix-match for partial typing
+          (e.g. 'rap' → raptors, 'fin' → finches, 'sea' → seabirds) */
     const targetGroup = GROUP_ALIASES[q] || null;
+    /* Collect all groups whose alias keys start with the query string */
+    const partialGroups = targetGroup ? null : (function () {
+      const found = new Set();
+      Object.keys(GROUP_ALIASES).forEach(function (alias) {
+        if (alias.startsWith(q)) found.add(GROUP_ALIASES[alias]);
+      });
+      return found.size ? [...found] : null;
+    })();
     const matches = ALL_SUGGESTIONS.filter(function (item) {
       if (item.group) {
-        if (targetGroup && item.group === targetGroup) return true;
+        if (targetGroup  && item.group === targetGroup) return true;
+        if (partialGroups && partialGroups.includes(item.group)) return true;
         if (item.group.toLowerCase().includes(q)) return true;
       }
       return item.label.toLowerCase().includes(q);
@@ -635,8 +645,10 @@
     const augmented = relatedEnvs.length
       ? [...matches, { type: 'section-heading', text: 'Also found in…' }, ...relatedEnvs]
       : matches;
-    const heading = targetGroup
-      ? ('All ' + targetGroup)
+    /* Use a specific heading when one group is unambiguously resolved */
+    const resolvedGroup = targetGroup || (partialGroups && partialGroups.length === 1 ? partialGroups[0] : null);
+    const heading = resolvedGroup
+      ? ('All ' + resolvedGroup)
       : (relatedEnvs.length ? 'Matching birds & habitats' : null);
     render(augmented, heading);
   });
