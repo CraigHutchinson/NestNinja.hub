@@ -64,7 +64,7 @@
   }
 
   function renderFooter(feed) {
-    var feedUrl = '/feeds/' + feed.slug + '/';
+    var feedUrl = '/feeds/?slug=' + feed.slug;
     var isDemo = feed.slug.indexOf('demo_') === 0;
     var ownerHtml = '<span class="hub-feed-owner">'
       + (isDemo
@@ -81,7 +81,7 @@
   function renderCard(feed) {
     var sc = STATUS_CONFIG[feed.status] || STATUS_CONFIG.offline;
     var offlineCls = feed.status === 'offline' ? ' hub-feed-card--offline' : '';
-    var feedUrl = '/feeds/' + feed.slug + '/';
+    var feedUrl = '/feeds/?slug=' + feed.slug;
     /* Whole card is a link; individual inner links still work via pointer-events */
     return [
       '<article class="hub-feed-card' + offlineCls + '"',

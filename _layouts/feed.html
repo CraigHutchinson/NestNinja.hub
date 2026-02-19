@@ -3,8 +3,8 @@ layout: base
 ---
 
 <!--
-  Feed page structure.
-  hub-feed-page.js reads the slug from #feed-app[data-feed-slug] and
+  Feed page structure — single page at /feeds/?slug=<slug>
+  hub-feed-page.js reads the slug from window.location.search (?slug=) and
   populates each labelled element below with data from NestNinja.FEEDS.
 
   Element IDs targeted by JS:
@@ -22,7 +22,7 @@ layout: base
     #feed-diary-empty  shown instead of the list when diary is empty
     #feed-footer-note  note in the page footer
 -->
-<div id="feed-app" class="feed-page" data-feed-slug="{{ page.feed_slug }}">
+<div id="feed-app" class="feed-page">
 
   <div class="feed-page-back">
     <a href="/search/" class="btn-back">← Back to results</a>

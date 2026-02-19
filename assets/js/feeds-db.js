@@ -9,11 +9,11 @@
    Schema
    ──────
    slug        {string}  URL-safe unique identifier for this feed.
-                         Used to form the feed's permalink: /feeds/{slug}/
+                         Used to form the feed URL: /feeds/?slug={slug}
                          A slug is a short, lowercase, hyphenated string
                          that uniquely identifies a resource in a URL — e.g.
-                         "norfolk-blue-tit" → nestninja.hub/feeds/norfolk-blue-tit/
-                         Slugs never change once published (they are permanent URLs).
+                         "norfolk-blue-tit" → nestninja.hub/feeds/?slug=norfolk-blue-tit
+                         Slugs never change once published (they are permanent identifiers).
 
    title       {string}  Human-readable name for this camera/box.
    location    {string}  Display location string (town, county, region).

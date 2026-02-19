@@ -208,13 +208,19 @@
     var container = document.getElementById('feed-app');
     if (!container) return;
 
-    var slug = container.getAttribute('data-feed-slug');
-    var feed = slug && NestNinja.findFeed(slug);
+    var slug = new URLSearchParams(window.location.search).get('slug');
+
+    if (!slug) {
+      /* No slug param — nothing to show; send the user to search */
+      window.location.replace('/search/');
+      return;
+    }
+
+    var feed = NestNinja.findFeed(slug);
 
     if (!feed) {
-      /* Edge case: unknown slug — replace the layout scaffolding with a plain error */
-      container.innerHTML = '<div class="feed-page-back"><a href="/search/" class="btn-back">\u2190 Back to results</a></div>'
-        + '<p class="feed-error">' + (slug ? 'Feed \u201C' + esc(slug) + '\u201D not found.' : 'Feed slug not specified.') + '</p>';
+      var errEl = document.getElementById('feed-diary-note') || container;
+      errEl.textContent = 'Feed \u201C' + slug + '\u201D not found.';
       return;
     }
 

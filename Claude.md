@@ -100,7 +100,7 @@ assets/
     hub-search.js    # Search/autocomplete logic
     hub-feeds.js     # Feed grid rendering
     hub-feed-page.js # Individual feed page logic
-feeds/               # Demo/placeholder individual feed pages
+feeds/index.html     # Single feed page — slug resolved from ?slug= URL param
 index.md             # Homepage (search + CTA)
 search.html          # Full search results page
 about.md             # About Hub
