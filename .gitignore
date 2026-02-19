@@ -1,3 +1,13 @@
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.bundle/
+vendor/
+Gemfile.lock
+node_modules/
+.firebase/
+
 # OS
 .DS_Store
 Thumbs.db
@@ -5,7 +15,3 @@ Thumbs.db
 # Editor
 .vscode/settings.json
 *.swp
-
-# Dependencies (for when development begins)
-node_modules/
-.firebase/

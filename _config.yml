@@ -1,0 +1,69 @@
+# NestNinja Hub - Camera Feed Discovery Site
+# Built with Jekyll and hosted on GitHub Pages
+
+title: NestNinja Hub
+tagline: Discover Live Bird Box Cameras
+description: >-
+  Browse and search live NestNinja bird box camera feeds shared by owners
+  across the UK. Watch birds nesting in real time — contributed by the
+  NestNinja community.
+
+# Site settings
+baseurl: ""
+url: "https://hub.nestninja.uk"
+author:
+  name: NestNinja Team
+email: "hello@nestninja.uk"
+
+# Social media
+github_username: CraigHutchinson
+twitter_username: NestNinjaUK
+
+# Build settings
+remote_theme: jekyll/minima@master
+
+# Suppress Sass deprecation warnings from the minima theme dependency
+sass:
+  quiet_deps: true
+  silence_deprecations:
+    - import
+    - global-builtin
+    - color-functions
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+  - jekyll-target-blank
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing
+exclude:
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - vendor/
+  - .vscode/
+  - .git/
+
+show_excerpts: false
+
+minima:
+  skin: auto
+
+  nav_pages:
+    - about.md
+
+  date_format: "%b %-d, %Y"
+
+  social_links:
+    - { url: "https://nestninja.uk", icon: "rss", title: "NestNinja.uk" }
+    - { url: "https://github.com/CraigHutchinson/NestNinja.open", icon: "github", title: "GitHub" }
+    - { url: "https://twitter.com/NestNinjaUK", icon: "x-twitter", title: "Twitter / X" }
+
+# SEO settings
+twitter:
+  username: NestNinjaUK
+  card: summary_large_image
