@@ -1,5 +1,84 @@
 ---
-layout: feed
+layout: base
 title: "NestNinja Hub — Camera Feed"
 permalink: /feeds/
 ---
+
+<!--
+  Feed page structure — single page at /feeds/?slug=<slug>
+  hub-feed-page.js reads the slug from window.location.search (?slug=) and
+  populates each labelled element below with data from NestNinja.FEEDS.
+
+  Element IDs targeted by JS:
+    #feed-demo-banner  shown + filled for demo_ feeds (hidden by default)
+    #feed-hero         video iframe or offline thumbnail (status-dependent)
+    #feed-title        h1 feed name
+    #feed-location     location paragraph
+    #feed-species-row  species tag chips
+    #feed-status       live / recording / offline badge
+    #feed-watch-btn    YouTube watch link (or empty for offline feeds)
+    #feed-about        rendered Markdown — about this box
+    #feed-camera       rendered Markdown — camera setup
+    #feed-diary-note   subtitle above diary entries
+    #feed-diary-list   <ol> of diary entries
+    #feed-diary-empty  shown instead of the list when diary is empty
+    #feed-footer-note  note in the page footer
+-->
+<div id="feed-app" class="feed-page">
+
+  <div class="feed-page-back">
+    <a href="/search/" class="btn-back">← Back to results</a>
+  </div>
+
+  <!-- Demo notice — hidden until JS confirms this is a demo_ feed -->
+  <div id="feed-demo-banner" class="feed-demo-banner" hidden></div>
+
+  <!-- Hero: video embed (live/recording) or greyed thumbnail (offline) -->
+  <div id="feed-hero" class="feed-hero"></div>
+
+  <div class="feed-meta-bar">
+    <div class="feed-meta-left">
+      <h1 id="feed-title"        class="feed-title"></h1>
+      <p  id="feed-location"     class="feed-location"></p>
+      <div id="feed-species-row" class="feed-species-row"></div>
+    </div>
+    <div class="feed-meta-right">
+      <span id="feed-status"   class="hub-feed-status"></span>
+      <div  id="feed-watch-btn"></div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="feed-body">
+
+    <aside class="feed-sidebar">
+      <section class="feed-info-card">
+        <h2>📦 About this box</h2>
+        <div id="feed-about"></div>
+      </section>
+      <section class="feed-info-card">
+        <h2>📷 Camera setup</h2>
+        <div id="feed-camera"></div>
+      </section>
+    </aside>
+
+    <main class="feed-diary">
+      <h2>📒 Nest diary</h2>
+      <p  id="feed-diary-note"  class="feed-diary-note"></p>
+      <ol id="feed-diary-list"  class="feed-diary-list" aria-label="Diary entries"></ol>
+      <p  id="feed-diary-empty" class="feed-diary-note" hidden>No diary entries yet — check back soon.</p>
+    </main>
+
+  </div>
+
+  <div class="feed-page-footer">
+    <p id="feed-footer-note"></p>
+    <a href="/search/" class="btn btn-primary">← Browse all feeds</a>
+  </div>
+
+</div>
+
+<script src="/assets/js/feeds-db.js"></script>
+<script src="/assets/js/birds-db.js"></script>
+<script src="/assets/js/hub-feed-page.js"></script>
