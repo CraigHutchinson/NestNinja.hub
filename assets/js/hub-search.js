@@ -262,10 +262,12 @@
   });
 
   /* Reverse lookup: stripped lowercase label → environment item */
-  const ENVIRONMENT_BY_LABEL = {};
-  ENVIRONMENTS.forEach(function (e) {
-    ENVIRONMENT_BY_LABEL[e.label.replace(/^.+? /, '').toLowerCase()] = e;
-  });
+  const ENVIRONMENT_BY_LABEL = Object.fromEntries(
+    ENVIRONMENTS.map(e => [stripEmoji(e.label).toLowerCase(), e])
+  );
+
+  /* Helper: strips the leading emoji + space from any label string */
+  function stripEmoji(s) { return s.replace(/^.+? /, ''); }
 
   /* Helper: maps plain name strings → location objects with shared type & note */
   function locs(note, names) {
@@ -307,7 +309,7 @@
 
   /* Merge and sort alphabetically by display text (stripping the emoji prefix) */
   const ALL_SUGGESTIONS = [...SPECIES, ...LOCATIONS, ...ENVIRONMENTS].sort((a, b) =>
-    a.label.replace(/^.+? /, '').localeCompare(b.label.replace(/^.+? /, ''))
+    stripEmoji(a.label).localeCompare(stripEmoji(b.label))
   );
 
   /* ── Browse hints — meta-entries that expand into a category on selection –– */
@@ -349,7 +351,7 @@
     SPECIES.find(s => s.label.includes('Common Swift')),
     SPECIES.find(s => s.label.includes('Kingfisher')),
     LOCATIONS.find(l => l.label.includes('Yorkshire')),
-    LOCATIONS.find(l => l.label.includes('Norfolk')),
+    LOCATIONS.find(l => l.label.includes('East Sussex')),
   ].filter(Boolean);
 
   /* ── DOM refs ───────────────────────────────────────────────────────── */
@@ -359,59 +361,93 @@
 
   let activeIndex = -1;
 
+  /* ── Search helpers ─────────────────────────────────────────────────── */
+
+  /* Bidirectional prefix lookup: 'loc' → location, 'locations' → location.
+     Returns the value for the longest matching key, or null. */
+  function resolveTypeAlias(q) {
+    const hits = Object.entries(TYPE_ALIASES)
+      .filter(([k]) => k.startsWith(q) || q.startsWith(k));
+    if (!hits.length) return null;
+    hits.sort((a, b) => b[0].length - a[0].length);
+    return hits[0][1];
+  }
+
+  /* Returns the resolved group(s) for a query via GROUP_ALIASES.
+     Exact match takes priority; bidirectional prefix handles partials & plurals. */
+  function resolveGroupAlias(q) {
+    const exact = GROUP_ALIASES[q];
+    if (exact) return { targetGroup: exact, partialGroups: null };
+    const found = new Set();
+    Object.keys(GROUP_ALIASES).forEach(function (alias) {
+      if (alias.startsWith(q) || q.startsWith(alias)) found.add(GROUP_ALIASES[alias]);
+    });
+    return { targetGroup: null, partialGroups: found.size ? [...found] : null };
+  }
+
+  /* Returns up to 5 habitat environments associated with matched species groups. */
+  function relatedEnvsFor(matches) {
+    const groups = [...new Set(matches
+      .filter(m => m.type === 'species' && m.group)
+      .map(m => m.group))];
+    if (!groups.length) return [];
+    const habitatKeys = [...new Set(
+      groups.flatMap(g => GROUP_HABITATS[g] || [])
+    )];
+    return habitatKeys
+      .map(k => ENVIRONMENTS.find(e => e.key === k))
+      .filter(Boolean)
+      .slice(0, 5);
+  }
+
+  /* Handles item selection: hints expand in-place; environments trigger re-filter;
+     species/locations fill the input and close the dropdown. */
+  function selectItem(item) {
+    input.value = item.type === 'hint' ? item.search : stripEmoji(item.label);
+    if (item.type === 'hint' || item.type === 'environment') {
+      input.dispatchEvent(new Event('input'));
+    } else {
+      hide();
+    }
+    input.focus();
+  }
+
   /* ── Rendering ──────────────────────────────────────────────────────── */
+
+  const TYPE_CLASS = { species: ' is-species', environment: ' is-environment', hint: ' is-hint' };
+
+  function makeHeadingEl(text, inline) {
+    const h = document.createElement('li');
+    h.className = 'hub-suggestion-heading' + (inline ? ' hub-suggestion-heading--inline' : '');
+    h.textContent = text;
+    h.setAttribute('aria-hidden', 'true');
+    return h;
+  }
+
   function render(matches, heading) {
     list.innerHTML = '';
     activeIndex = -1;
     if (!matches.length) { hide(); return; }
-    if (heading) {
-      const h = document.createElement('li');
-      h.className = 'hub-suggestion-heading';
-      h.textContent = heading;
-      h.setAttribute('aria-hidden', 'true');
-      list.appendChild(h);
-    }
-    /* No cap for full-category views (dropdown is scrollable); cap filtered searches */
+    if (heading) list.appendChild(makeHeadingEl(heading, false));
+
+    /* No cap for full-category views (dropdown is scrollable); cap filtered results */
     const limit = heading ? Infinity : 8;
     matches.slice(0, limit).forEach(function (item, i) {
-      /* Section divider — non-interactive inline heading injected into match arrays */
       if (item.type === 'section-heading') {
-        const h = document.createElement('li');
-        h.className = 'hub-suggestion-heading hub-suggestion-heading--inline';
-        h.textContent = item.text;
-        h.setAttribute('aria-hidden', 'true');
-        list.appendChild(h);
+        list.appendChild(makeHeadingEl(item.text, true));
         return;
       }
       const li = document.createElement('li');
       li.setAttribute('role', 'option');
       li.setAttribute('data-index', i);
-      const typeClass = item.type === 'species'     ? ' is-species'
-                        : item.type === 'environment' ? ' is-environment'
-                        : item.type === 'hint'        ? ' is-hint'
-                        : ' is-location';
-      li.className = 'hub-suggestion-item' + typeClass;
-      const arrow = item.type === 'hint' ? '<span class="sug-arrow">›</span>' : '';
-      li.innerHTML = arrow + '<span class="sug-label">' + item.label + '</span>' +
+      li.className = 'hub-suggestion-item' + (TYPE_CLASS[item.type] || ' is-location');
+      li.innerHTML = (item.type === 'hint' ? '<span class="sug-arrow">›</span>' : '') +
+        '<span class="sug-label">' + item.label + '</span>' +
         (item.note ? '<span class="sug-note">' + item.note + '</span>' : '');
-      li.addEventListener('mousedown', function (e) {
-        e.preventDefault();
-        if (item.type === 'hint') {
-          /* Hints expand into their target category rather than filling the input */
-          input.value = item.search;
-          input.dispatchEvent(new Event('input'));
-        } else if (item.type === 'environment') {
-          /* Environments re-run the filter so related species appear below */
-          input.value = item.label.replace(/^.+? /, '');
-          input.dispatchEvent(new Event('input'));
-        } else {
-          input.value = item.label.replace(/^.+? /, '');
-          hide();
-        }
-        input.focus();
-      });
+      li.addEventListener('mousedown', function (e) { e.preventDefault(); selectItem(item); });
       list.appendChild(li);
     });
+
     list.setAttribute('aria-hidden', 'false');
     list.classList.add('is-open');
   }
@@ -424,18 +460,17 @@
 
   function setActive(index) {
     const items = list.querySelectorAll('.hub-suggestion-item');
-    items.forEach(function (el) { el.classList.remove('is-active'); });
+    items.forEach(el => el.classList.remove('is-active'));
     if (index >= 0 && index < items.length) {
       items[index].classList.add('is-active');
       activeIndex = index;
     }
   }
 
-  function showDefaults() {
-    render(DEFAULTS, 'Popular searches');
-  }
+  function showDefaults() { render(DEFAULTS, 'Popular searches'); }
 
   /* ── Event listeners ────────────────────────────────────────────────── */
+
   input.addEventListener('focus', function () {
     if (input.value.trim() === '') showDefaults();
   });
@@ -443,73 +478,46 @@
   input.addEventListener('input', function () {
     const q = input.value.trim().toLowerCase();
     if (q.length < 1) { showDefaults(); return; }
-    /* 1. Check TYPE_ALIASES — partial prefix allowed: 'loc' → location, 'hab' → habitat.
-          Also accepts query extending beyond key: 'locations' matches 'location'.
-          Multiple matches: pick longest (most specific) key. */
-    const typeAlias = (function () {
-      const hits = Object.entries(TYPE_ALIASES)
-        .filter(([k]) => k.startsWith(q) || q.startsWith(k));
-      if (!hits.length) return null;
-      hits.sort((a, b) => b[0].length - a[0].length);
-      return hits[0][1];
-    })();
+
+    /* 1. Category / type term: 'species', 'habitat', 'loc', 'locations', … */
+    const typeAlias = resolveTypeAlias(q);
     if (typeAlias) {
       if (typeAlias.hints) { render(typeAlias.hints, typeAlias.heading); return; }
       render(ALL_SUGGESTIONS.filter(item => item.type === typeAlias.type), typeAlias.heading);
       return;
     }
-    /* 2. Check if the query exactly matches an environment label — if so,
-          show the habitat entry followed by species commonly found there */
+
+    /* 2. Exact environment label: show habitat card + associated species */
     const matchedEnv = ENVIRONMENT_BY_LABEL[q];
     if (matchedEnv) {
-      const groups = HABITAT_GROUPS[matchedEnv.key] || [];
-      const relatedSpecies = SPECIES.filter(s => groups.includes(s.group));
-      const combined = [
+      render([
         matchedEnv,
         { type: 'section-heading', text: 'Common species in this habitat' },
-        ...relatedSpecies,
-      ];
-      render(combined, matchedEnv.label.replace(/^.+? /, '') + ' — birds & habitat');
+        ...SPECIES.filter(s => (HABITAT_GROUPS[matchedEnv.key] || []).includes(s.group)),
+      ], stripEmoji(matchedEnv.label) + ' — birds & habitat');
       return;
     }
-    /* 3. Check GROUP_ALIASES — exact first, then prefix-match for partial typing
-          (e.g. 'rap' → raptors, 'fin' → finches, 'sea' → seabirds) */
-    const targetGroup = GROUP_ALIASES[q] || null;
-    /* Bidirectional prefix: covers partial typing ('gu' → gull) and over-typed
-       plurals ('gulls' → gull, 'waders' → wader, 'swallows' → swallow). */
-    const partialGroups = targetGroup ? null : (function () {
-      const found = new Set();
-      Object.keys(GROUP_ALIASES).forEach(function (alias) {
-        if (alias.startsWith(q) || q.startsWith(alias)) found.add(GROUP_ALIASES[alias]);
-      });
-      return found.size ? [...found] : null;
-    })();
+
+    /* 3. General search: group alias, label substring, or group-key substring */
+    const { targetGroup, partialGroups } = resolveGroupAlias(q);
     const matches = ALL_SUGGESTIONS.filter(function (item) {
       if (item.group) {
-        if (targetGroup  && item.group === targetGroup) return true;
+        if (targetGroup   && item.group === targetGroup) return true;
         if (partialGroups && partialGroups.includes(item.group)) return true;
         if (item.group.toLowerCase().includes(q)) return true;
       }
       return item.label.toLowerCase().includes(q);
     });
-    /* When species appear in results, suggest the habitats where those groups live */
-    const speciesMatches = matches.filter(function (m) { return m.type === 'species'; });
-    const relatedEnvs = (function () {
-      if (!speciesMatches.length) return [];
-      const groups = [...new Set(speciesMatches.map(function (s) { return s.group; }).filter(Boolean))];
-      const habitatKeys = [...new Set(groups.reduce(function (acc, g) { return acc.concat(GROUP_HABITATS[g] || []); }, []))];
-      return habitatKeys
-        .map(function (k) { return ENVIRONMENTS.find(function (e) { return e.key === k; }); })
-        .filter(Boolean)
-        .slice(0, 5);
-    })();
+
+    /* Append related habitat environments below species results */
+    const relatedEnvs = relatedEnvsFor(matches);
     const augmented = relatedEnvs.length
       ? [...matches, { type: 'section-heading', text: 'Also found in…' }, ...relatedEnvs]
       : matches;
-    /* Use a specific heading when one group is unambiguously resolved */
+
     const resolvedGroup = targetGroup || (partialGroups && partialGroups.length === 1 ? partialGroups[0] : null);
     const heading = resolvedGroup
-      ? ('All ' + resolvedGroup)
+      ? 'All ' + resolvedGroup
       : (relatedEnvs.length ? 'Matching birds & habitats' : null);
     render(augmented, heading);
   });
@@ -518,23 +526,15 @@
     const items = list.querySelectorAll('.hub-suggestion-item');
     if (e.key === 'ArrowDown' && !list.classList.contains('is-open')) {
       e.preventDefault();
-      if (input.value.trim() === '') { showDefaults(); } else { input.dispatchEvent(new Event('input')); }
+      if (input.value.trim() === '') showDefaults(); else input.dispatchEvent(new Event('input'));
       setActive(0);
       return;
     }
     if (!list.classList.contains('is-open')) return;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActive(Math.min(activeIndex + 1, items.length - 1));
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActive(Math.max(activeIndex - 1, 0));
-    } else if (e.key === 'Enter' && activeIndex >= 0) {
-      e.preventDefault();
-      items[activeIndex].dispatchEvent(new MouseEvent('mousedown'));
-    } else if (e.key === 'Escape') {
-      hide();
-    }
+    if      (e.key === 'ArrowDown')                  { e.preventDefault(); setActive(Math.min(activeIndex + 1, items.length - 1)); }
+    else if (e.key === 'ArrowUp')                    { e.preventDefault(); setActive(Math.max(activeIndex - 1, 0)); }
+    else if (e.key === 'Enter' && activeIndex >= 0)  { e.preventDefault(); items[activeIndex].dispatchEvent(new MouseEvent('mousedown')); }
+    else if (e.key === 'Escape')                     { hide(); }
   });
 
   document.addEventListener('click', function (e) {
