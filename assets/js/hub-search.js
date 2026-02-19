@@ -271,23 +271,24 @@
     'shorebird':        'countryside',
   };
 
+  /* Environments — type:'environment' injected by .map(); entries are [key, label, note] */
   const ENVIRONMENTS = [
-    { key: 'garden',         label: '🌿 Garden',              type: 'environment', note: 'Domestic gardens, feeders & nest boxes' },
-    { key: 'woodland',       label: '🌲 Woodland',            type: 'environment', note: 'Deciduous & mixed woodland' },
-    { key: 'conifer',        label: '🌲 Conifer Forest',      type: 'environment', note: 'Pine & spruce plantation' },
-    { key: 'farmland',       label: '🌾 Farmland',            type: 'environment', note: 'Arable & pasture fields, farm buildings' },
-    { key: 'wetland',        label: '💧 Wetland & Marsh',     type: 'environment', note: 'Fens, bogs, reedbeds & carr woodland' },
-    { key: 'river',          label: '🌊 River & Stream',      type: 'environment', note: 'Fast & slow-moving freshwater' },
-    { key: 'lake',           label: '🌊 Lake & Loch',         type: 'environment', note: 'Still water; reservoirs, lochs & meres' },
-    { key: 'estuary',        label: '🌊 Estuary & Mudflat',   type: 'environment', note: 'Tidal mudflats & saltmarsh' },
-    { key: 'coastal',        label: '🌊 Coastal & Cliff',     type: 'environment', note: 'Sea cliffs, caves & rocky shores' },
-    { key: 'urban',          label: '🏙️ Urban & Rooftop',    type: 'environment', note: 'Rooftops, ledges & urban green space' },
-    { key: 'heathland',      label: '🌿 Heathland',           type: 'environment', note: 'Lowland heath; gorse & heather' },
-    { key: 'upland',         label: '🏔️ Upland & Moorland',  type: 'environment', note: 'Blanket bog, high moorland & mountain' },
-    { key: 'grassland',      label: '🌿 Grassland & Meadow',  type: 'environment', note: 'Hay meadows, chalk downland & rough grass' },
-    { key: 'hedgerow',       label: '🌿 Hedgerow & Scrub',    type: 'environment', note: 'Field boundaries, bramble & thick scrub' },
-    { key: 'nature-reserve', label: '🌿 Nature Reserve',      type: 'environment', note: 'RSPB, Wildlife Trust & NNR managed sites' },
-  ];
+    ['garden',         '🌿 Garden',              'Domestic gardens, feeders & nest boxes'],
+    ['woodland',       '🌲 Woodland',            'Deciduous & mixed woodland'],
+    ['conifer',        '🌲 Conifer Forest',      'Pine & spruce plantation'],
+    ['farmland',       '🌾 Farmland',            'Arable & pasture fields, farm buildings'],
+    ['wetland',        '💧 Wetland & Marsh',     'Fens, bogs, reedbeds & carr woodland'],
+    ['river',          '🌊 River & Stream',      'Fast & slow-moving freshwater'],
+    ['lake',           '🌊 Lake & Loch',         'Still water; reservoirs, lochs & meres'],
+    ['estuary',        '🌊 Estuary & Mudflat',   'Tidal mudflats & saltmarsh'],
+    ['coastal',        '🌊 Coastal & Cliff',     'Sea cliffs, caves & rocky shores'],
+    ['urban',          '🏙️ Urban & Rooftop',    'Rooftops, ledges & urban green space'],
+    ['heathland',      '🌿 Heathland',           'Lowland heath; gorse & heather'],
+    ['upland',         '🏔️ Upland & Moorland',  'Blanket bog, high moorland & mountain'],
+    ['grassland',      '🌿 Grassland & Meadow',  'Hay meadows, chalk downland & rough grass'],
+    ['hedgerow',       '🌿 Hedgerow & Scrub',    'Field boundaries, bramble & thick scrub'],
+    ['nature-reserve', '🌿 Nature Reserve',      'RSPB, Wildlife Trust & NNR managed sites'],
+  ].map(([key, label, note]) => ({ key, label, type: 'environment', note }));
 
   /* Maps habitat key → species group keys commonly found there */
   const HABITAT_GROUPS = {
@@ -369,21 +370,22 @@
   /* ── Browse hints — meta-entries that expand into a category on selection –– */
 
   /* One entry per species group, count derived live from SPECIES array */
+  /* Entries are [label, search, groupKey] — type:'hint' and note injected by .map() */
   function countGroup(g) { return SPECIES.filter(s => s.group === g).length; }
   const SPECIES_GROUP_HINTS = [
-    { label: '🐦 Countryside & Open Land', type: 'hint', search: 'countryside',   note: countGroup('countryside')      + ' species' },
-    { label: '🐦 Finches & Buntings',      type: 'hint', search: 'finches',       note: countGroup('finches')          + ' species' },
-    { label: '🐦 Flycatchers & Thrushes',  type: 'hint', search: 'flycatchers',   note: countGroup('flycatchers')      + ' species' },
-    { label: '🐾 Fowl & Poultry',           type: 'hint', search: 'fowl',          note: countGroup('fowl')             + ' species' },
-    { label: '🐦 Hirundines & Swifts',     type: 'hint', search: 'hirundines',    note: countGroup('hirundines')       + ' species' },
-    { label: '🦉 Owls',                     type: 'hint', search: 'owls',          note: countGroup('owls')             + ' species' },
-    { label: '🦅 Raptors & Corvids',        type: 'hint', search: 'raptors',       note: countGroup('raptors')          + ' species' },
-    { label: '🐦 Seabirds & Gulls',         type: 'hint', search: 'seabirds',      note: countGroup('seabirds')         + ' species' },
-    { label: '🐦 Small Passerines',         type: 'hint', search: 'garden birds',  note: countGroup('small-passerines') + ' species' },
-    { label: '🐦 Tits & Woodland',          type: 'hint', search: 'tits',          note: countGroup('tits')             + ' species' },
-    { label: '🦆 Waterbirds & Ducks',       type: 'hint', search: 'waterbirds',    note: countGroup('waterbirds')       + ' species' },
-    { label: '🐦 Warblers',                 type: 'hint', search: 'warblers',      note: countGroup('warblers')         + ' species' },
-  ];
+    ['🐦 Countryside & Open Land', 'countryside',  'countryside'],
+    ['🐦 Finches & Buntings',      'finches',      'finches'],
+    ['🐦 Flycatchers & Thrushes',  'flycatchers',  'flycatchers'],
+    ['🐾 Fowl & Poultry',          'fowl',         'fowl'],
+    ['🐦 Hirundines & Swifts',     'hirundines',   'hirundines'],
+    ['🦉 Owls',                    'owls',         'owls'],
+    ['🦅 Raptors & Corvids',       'raptors',      'raptors'],
+    ['🐦 Seabirds & Gulls',        'seabirds',     'seabirds'],
+    ['🐦 Small Passerines',        'garden birds', 'small-passerines'],
+    ['🐦 Tits & Woodland',         'tits',         'tits'],
+    ['🦆 Waterbirds & Ducks',      'waterbirds',   'waterbirds'],
+    ['🐦 Warblers',                'warblers',     'warblers'],
+  ].map(([label, search, g]) => ({ label, type: 'hint', search, note: countGroup(g) + ' species' }));
 
   /* Maps typed terms to a result-set strategy: { type } filters by item type,
      { hints } renders a fixed hint list, { group } delegates to GROUP_ALIASES */
