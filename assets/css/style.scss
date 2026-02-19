@@ -918,7 +918,7 @@ hr {
 }
 
 .feed-location {
-  color: #475569;
+  color: #475569 !important;
   font-size: 0.95rem;
   margin: 0 0 0.6rem;
 }
@@ -955,17 +955,19 @@ hr {
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   padding: 1.1rem 1.25rem;
+  /* Explicit overrides — beats .page-content .wrapper p/li white rules */
+  color: #334155;
 
   h2 {
     font-size: 1rem;
     font-weight: 700;
-    color: var(--hub-night, #0f172a);
+    color: var(--hub-night, #0f172a) !important;
     margin: 0 0 0.75rem;
   }
 
   p {
     font-size: 0.9rem;
-    color: #334155;
+    color: #334155 !important;
     line-height: 1.6;
     margin: 0 0 0.5rem;
 
@@ -979,7 +981,10 @@ hr {
     color: #334155;
     line-height: 1.7;
 
-    li { margin: 0; }
+    li {
+      margin: 0;
+      color: #334155 !important;
+    }
   }
 
   code {
@@ -987,6 +992,7 @@ hr {
     background: #e2e8f0;
     border-radius: 3px;
     padding: 0.05em 0.3em;
+    color: #1e293b;
   }
 
   strong { color: #1e293b; }
@@ -1005,7 +1011,7 @@ hr {
 .feed-diary-note,
 .feed-diary-empty {
   font-size: 0.85rem;
-  color: #64748b;
+  color: #64748b !important;
   margin: 0 0 1rem;
 }
 
@@ -1063,7 +1069,7 @@ hr {
 .diary-time {
   display: block;
   font-size: 0.78rem;
-  color: #94a3b8;
+  color: #94a3b8 !important;
   font-weight: 600;
   margin-bottom: 0.25rem;
   letter-spacing: 0.01em;
@@ -1071,7 +1077,7 @@ hr {
 
 .diary-text {
   font-size: 0.9rem;
-  color: #1e293b;
+  color: #1e293b !important;
   line-height: 1.55;
   margin: 0;
 }
@@ -1089,7 +1095,7 @@ hr {
 
   p {
     font-size: 0.85rem;
-    color: #64748b;
+    color: #64748b !important;
     margin: 0;
   }
 }
