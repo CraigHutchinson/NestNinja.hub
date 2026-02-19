@@ -13,11 +13,14 @@ title: ""
     right now, wherever you are.
   </p>
 
-  <div class="hub-search">
-    <input type="text" placeholder="Search by location or species…" disabled>
-    <button disabled>Search</button>
+  <div class="hub-search-wrap">
+    <div class="hub-search">
+      <input type="text" id="hub-search-input" placeholder="Search by location or species…" autocomplete="off" aria-label="Search bird boxes by location or species" aria-autocomplete="list" aria-controls="hub-suggestions">
+      <button id="hub-search-btn" disabled title="Live search coming soon">Search</button>
+    </div>
+    <ul class="hub-suggestions" id="hub-suggestions" role="listbox" aria-hidden="true"></ul>
   </div>
-  <p class="hub-search-note">Live search coming when Hub launches</p>
+  <p class="hub-search-note">🔒 Demo suggestions only — live search launches with Hub</p>
 
   <div class="cta-buttons">
     <a href="https://nestninja.uk" class="btn btn-primary">Get a NestNinja →</a>
@@ -74,3 +77,5 @@ Hub is the **community discovery layer** for NestNinja devices. Once live, owner
 Hub is in the planning stage. Development will begin after the NestNinja firmware reaches stable release (targeting late 2026).
 
 Want to be notified? Follow [@NestNinjaUK](https://twitter.com/NestNinjaUK) or [join the community](https://github.com/CraigHutchinson/NestNinja.open/discussions).
+
+<script src="/assets/js/hub-search.js" defer></script>

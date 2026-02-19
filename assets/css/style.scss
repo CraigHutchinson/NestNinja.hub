@@ -204,6 +204,87 @@ body::before {
   margin-bottom: 2.5rem;
 }
 
+/* ─── Autocomplete ───────────────────────────────────────────────────────── */
+.hub-search-wrap {
+  position: relative;
+  max-width: 520px;
+  margin: 0 auto 1rem;
+}
+
+/* override the old margin on .hub-search now it lives inside the wrap */
+.hub-search-wrap .hub-search {
+  max-width: 100%;
+  margin: 0;
+}
+
+.hub-suggestions {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #0f2233;
+  border: 1px solid rgba(13, 148, 136, 0.5);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  overflow-y: auto;
+  max-height: 22rem;
+}
+
+.hub-suggestions.is-open {
+  display: block;
+}
+
+.hub-suggestion-heading {
+  padding: 0.4rem 1rem 0.25rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+  user-select: none;
+}
+
+.hub-suggestion-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.12s;
+
+  &:last-child { border-bottom: none; }
+
+  &:hover,
+  &.is-active {
+    background: rgba(13, 148, 136, 0.18);
+  }
+}
+
+.sug-label {
+  font-size: 0.95rem;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.sug-note {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.45);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hub-suggestion-item.is-species .sug-label     { color: #86efac; }  /* green  — species   */
+.hub-suggestion-item.is-environment .sug-label { color: #fcd34d; }  /* amber  — habitat   */
+.hub-suggestion-item.is-location .sug-label    { color: #7dd3fc; }  /* blue   — location  */
+
 /* ─── Coming soon card grid ───────────────────────────────────────────────── */
 .hub-feature-grid {
   display: grid;
