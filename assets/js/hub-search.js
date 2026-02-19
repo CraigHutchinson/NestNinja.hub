@@ -330,20 +330,13 @@
     ['🐦 Warblers',                'warblers',     'warblers'],
   ].map(([label, search, g]) => ({ label, type: 'hint', search, note: countGroup(g) + ' species' }));
 
-  /* Maps typed terms to a result-set strategy: { type } filters by item type,
-     { hints } renders a fixed hint list, { group } delegates to GROUP_ALIASES.
-     Partial prefix typing is handled by the lookup below — no plural duplicates needed. */
-  const TYPE_ALIASES = {
-    'species':       { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
-    'species group': { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
-    'bird group':    { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
-    'groups':        { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' },
-    'location':      { type: 'location',           heading: 'All locations' },
-    'area':          { type: 'location',           heading: 'All locations' },
-    'region':        { type: 'location',           heading: 'All locations' },
-    'environment':   { type: 'environment',        heading: 'All environments' },
-    'habitat':       { type: 'environment',        heading: 'All environments' },
-  };
+  /* Maps typed terms to a result-set strategy. Each unique value listed once;
+     bidirectional prefix lookup in the handler covers plurals & partial typing. */
+  const TYPE_ALIASES = Object.fromEntries([
+    [['species', 'species group', 'bird group', 'groups'], { hints: SPECIES_GROUP_HINTS, heading: 'Browse by species group' }],
+    [['location', 'area', 'region'],                       { type: 'location',           heading: 'All locations'           }],
+    [['environment', 'habitat'],                           { type: 'environment',        heading: 'All environments'        }],
+  ].flatMap(([keys, value]) => keys.map(k => [k, value])));
 
   /* Popular picks shown before the user types */
   const DEFAULTS = [
