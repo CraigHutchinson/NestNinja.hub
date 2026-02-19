@@ -1,0 +1,22 @@
+---
+layout: base
+---
+
+{{- /* Feed page — all content is rendered client-side by hub-feed-page.js.
+       Only feed_slug and permalink are needed in the page's front matter.
+       The title front-matter key drives Jekyll's <title> tag only. */ -}}
+
+<div id="feed-app" data-feed-slug="{{ page.feed_slug }}"
+     style="min-height:60vh">
+  {{- /* JS-rendered content injected here. Placeholder shown while scripts load. */ -}}
+  <div style="padding:2rem;text-align:center;color:#6b7280">
+    <p>Loading feed&hellip;</p>
+  </div>
+</div>
+
+<script src="/assets/js/feeds-db.js"></script>
+<script src="/assets/js/birds-db.js"></script>
+<script src="/assets/js/hub-feed-page.js"></script>
+
+{{- /* Everything below this point was the old Liquid-driven content.
+       Removed — the JS renderer in hub-feed-page.js handles all page content. */ -}}

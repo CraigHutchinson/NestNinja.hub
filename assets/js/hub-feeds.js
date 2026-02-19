@@ -1,111 +1,17 @@
 /* =============================================================================
-   NestNinja Hub — Feed data + client-side renderer
+   NestNinja Hub — Search grid renderer
    ---------------------------------------------------------------------------
-   DEMO_FEEDS is a static array standing in for a future Firebase/API fetch.
-   When Hub goes live, replace loadFeeds() with a real data fetch and call
-   renderFeeds() with the returned array.
+   Reads feed data from NestNinja.FEEDS (feeds-db.js) and species metadata
+   from NestNinja.SPECIES_META (birds-db.js).
+
+   Load order required in search.html:
+     1. feeds-db.js      → NestNinja.FEEDS, NestNinja.findFeed
+     2. birds-db.js      → NestNinja.SPECIES_META, NestNinja.speciesMeta
+     3. hub-search.js    → search input / navigation
+     4. hub-feeds.js     → this file (grid renderer + play behaviour)
    ============================================================================= */
 
 (function () {
-
-  /* ── Species metadata registry ──────────────────────────────────────────── */
-  /* Maps species name → { emoji, cls } where cls is the hub-species-tag modifier */
-  var SPECIES_META = {
-    'Blue Tit':       { emoji: '🐦', cls: '' },
-    'Great Tit':      { emoji: '🐦', cls: '' },
-    'Coal Tit':       { emoji: '🐦', cls: '' },
-    'Marsh Tit':      { emoji: '🐦', cls: '' },
-    'Long-tailed Tit':{ emoji: '🐦', cls: '' },
-    'Robin':          { emoji: '🐦', cls: '' },
-    'Dunnock':        { emoji: '🐦', cls: '' },
-    'Wren':           { emoji: '🐦', cls: '' },
-    'House Sparrow':  { emoji: '🐦', cls: '' },
-    'Tree Sparrow':   { emoji: '🐦', cls: '' },
-    'Pied Flycatcher':{ emoji: '🐦', cls: '' },
-    'Barn Owl':       { emoji: '🦉', cls: 'hub-species-tag--owl' },
-    'Tawny Owl':      { emoji: '🦉', cls: 'hub-species-tag--owl' },
-    'Little Owl':     { emoji: '🦉', cls: 'hub-species-tag--owl' },
-    'Common Swift':   { emoji: '🐦', cls: 'hub-species-tag--swift' },
-    'Barn Swallow':   { emoji: '🐦', cls: 'hub-species-tag--swift' },
-    'House Martin':   { emoji: '🐦', cls: 'hub-species-tag--swift' },
-    'Mandarin Duck':  { emoji: '🦆', cls: 'hub-species-tag--waterbird' },
-    'Goldeneye':      { emoji: '🦆', cls: 'hub-species-tag--waterbird' },
-    'Kingfisher':     { emoji: '🐦', cls: 'hub-species-tag--swift' },
-  };
-
-  function speciesMeta(name) {
-    return SPECIES_META[name] || { emoji: '🐦', cls: '' };
-  }
-
-  /* ── Demo feed data ─────────────────────────────────────────────────────── */
-  /*
-   * status:     'live' | 'recording' | 'offline'
-   * videoId:    YouTube video/live ID used for the iframe embed (null for offline-only feeds)
-   * thumbnail:  explicit thumbnail URL for offline/placeholder cards
-   *             — if omitted, falls back to the YouTube maxresdefault for videoId
-   *             — can be any image URL: local asset, YouTube thumb, camera snapshot, etc.
-   * watchUrl:   canonical YouTube URL for the full-screen link (null if no recording)
-   * lastActive: human-readable string shown on offline cards (null for live/recording)
-   */
-  var DEMO_FEEDS = [
-    {
-      videoId:    'WuGlpr3xXU8',
-      title:      'Garden Blue Tit Box',
-      location:   'Norfolk',
-      species:    ['Blue Tit', 'Great Tit'],
-      status:     'live',
-      watchUrl:   'https://www.youtube.com/live/WuGlpr3xXU8',
-      lastActive: null,
-    },
-    {
-      videoId:    'K2keQ345dDM',
-      title:      'Barn Owl Nest Cam',
-      location:   'United Kingdom',
-      species:    ['Barn Owl'],
-      status:     'live',
-      watchUrl:   'https://www.youtube.com/live/K2keQ345dDM',
-      lastActive: null,
-    },
-    {
-      videoId:    '7EPJEg6R3SM',
-      title:      'Garden Blue Tit Box',
-      location:   'Loughborough, Leicestershire',
-      species:    ['Blue Tit'],
-      status:     'recording',
-      watchUrl:   'https://youtu.be/7EPJEg6R3SM',
-      lastActive: null,
-    },
-    {
-      videoId:    null,
-      thumbnail:  'https://img.youtube.com/vi/WuGlpr3xXU8/maxresdefault.jpg',
-      title:      'Robin Open-Box',
-      location:   'Dartmoor, Devon',
-      species:    ['Robin', 'Dunnock'],
-      status:     'offline',
-      watchUrl:   null,
-      lastActive: '2 hrs ago',
-    },
-    {
-      videoId:    null,
-      thumbnail:  'https://img.youtube.com/vi/K2keQ345dDM/maxresdefault.jpg',
-      title:      'Tawny Owl Box',
-      location:   'Derbyshire',
-      species:    ['Tawny Owl'],
-      status:     'offline',
-      watchUrl:   null,
-      lastActive: 'yesterday',
-    },
-    {
-      videoId:    null,
-      thumbnail:  'https://img.youtube.com/vi/7EPJEg6R3SM/maxresdefault.jpg',
-      title:      'Suburban Blue Tit Box',
-      location:   'Yorkshire',
-      species:    ['Blue Tit', 'Coal Tit'],
-      status:     'offline',
-      watchUrl:   null,
-      lastActive: '3 hrs ago',
-    },
-  ];
 
   /* ── Status config ──────────────────────────────────────────────────────── */
   var STATUS_CONFIG = {
@@ -152,25 +58,28 @@
 
   function renderSpeciesTags(species) {
     return species.map(function (name) {
-      var m = speciesMeta(name);
+      var m = NestNinja.speciesMeta(name);
       return '<span class="hub-species-tag ' + m.cls + '">' + m.emoji + ' ' + esc(name) + '</span>';
     }).join('');
   }
 
   function renderFooter(feed) {
+    var feedUrl = '/feeds/' + feed.slug + '/';
     var ownerHtml = '<span class="hub-feed-owner">'
       + (feed.lastActive ? 'Last active ' + esc(feed.lastActive) : '▶ Example YouTube video')
       + '</span>';
     var watchHtml = feed.watchUrl
       ? '<a href="' + esc(feed.watchUrl) + '" target="_blank" rel="noopener" class="hub-feed-watch">Full screen ↗</a>'
       : '<span class="hub-feed-watch hub-feed-watch--none">No recording</span>';
-    return ownerHtml + watchHtml;
+    var diaryHtml = '<a href="' + esc(feedUrl) + '" class="hub-feed-diary">View diary →</a>';
+    return ownerHtml + '<div class="hub-feed-links">' + diaryHtml + watchHtml + '</div>';
   }
 
   function renderCard(feed) {
     var sc = STATUS_CONFIG[feed.status] || STATUS_CONFIG.offline;
     var offlineCls = feed.status === 'offline' ? ' hub-feed-card--offline' : '';
-    /* data-* attributes drive client-side filtering */
+    var feedUrl = '/feeds/' + feed.slug + '/';
+    /* Whole card is a link; individual inner links still work via pointer-events */
     return [
       '<article class="hub-feed-card' + offlineCls + '"',
       '         data-status="' + esc(feed.status) + '"',
@@ -181,7 +90,7 @@
       '    <span class="hub-feed-status ' + sc.cls + '">' + sc.label + '</span>',
       '  </div>',
       '  <div class="hub-feed-info">',
-      '    <h3 class="hub-feed-title">' + esc(feed.title) + '</h3>',
+      '    <h3 class="hub-feed-title"><a href="' + esc(feedUrl) + '" class="hub-feed-title-link">' + esc(feed.title) + '</a></h3>',
       '    <p class="hub-feed-location">📍 ' + esc(feed.location) + '</p>',
       '    <div class="hub-feed-species">' + renderSpeciesTags(feed.species) + '</div>',
       '    <div class="hub-feed-footer">' + renderFooter(feed) + '</div>',
@@ -297,9 +206,9 @@
   }
 
   /* ── Data loader ────────────────────────────────────────────────────────── */
-  /* Async-ready: swap the body of loadFeeds() for a fetch() call when live.  */
+  /* Reads from feeds-db.js. Swap Promise.resolve for a fetch() when going live. */
   function loadFeeds() {
-    return Promise.resolve(DEMO_FEEDS);
+    return Promise.resolve(NestNinja.FEEDS);
   }
 
   /* ── Mount ──────────────────────────────────────────────────────────────── */
