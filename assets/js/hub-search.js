@@ -17,7 +17,7 @@
     { label: '🐦 Treecreeper',        type: 'species', note: 'Needs wedge-shaped open-back box' },
   ];
 
-  /* Sparrows, finches & small garden birds */
+  /* Sparrows & small garden passerines */
   const SPECIES_GARDEN = [
     { label: '🐦 House Sparrow',      type: 'species', note: 'Colonial nesters; use terrace-style boxes' },
     { label: '🐦 Tree Sparrow',       type: 'species', note: 'Red-listed; prefers colonial boxes in farmland' },
@@ -27,6 +27,27 @@
     { label: '🐦 Pied Wagtail',       type: 'species', note: 'Open-fronted box in farmyards/buildings' },
     { label: '🐦 Grey Wagtail',       type: 'species', note: 'Open-fronted box near fast-moving streams' },
     { label: '🐦 Dipper',             type: 'species', note: 'Open-fronted box over upland streams' },
+  ];
+
+  /* Finches & buntings */
+  const SPECIES_FINCHES = [
+    { label: '🐦 Chaffinch',           type: 'species', note: 'Most common UK finch; open woodland & gardens' },
+    { label: '🐦 Brambling',           type: 'species', note: 'Winter visitor; beech mast specialist' },
+    { label: '🐦 Goldfinch',           type: 'species', note: 'Loves teasel & nyjer seed; garden feeder regular' },
+    { label: '🐦 Siskin',              type: 'species', note: 'Conifer & alder specialist; garden feeder in winter' },
+    { label: '🐦 Linnet',              type: 'species', note: 'Farmland & heath; declining in UK' },
+    { label: '🐦 Twite',               type: 'species', note: 'Upland moorland specialist; red-listed' },
+    { label: '🐦 Lesser Redpoll',      type: 'species', note: 'Birch & alder woodland; declining' },
+    { label: '🐦 Common Crossbill',    type: 'species', note: 'Conifer specialist; nomadic; Scottish pinewoods' },
+    { label: '🐦 Parrot Crossbill',    type: 'species', note: 'Rare; Scots pine specialist in Scotland' },
+    { label: '🐦 Scottish Crossbill',  type: 'species', note: 'Endemic UK species; Caledonian pinewoods only' },
+    { label: '🐦 Bullfinch',           type: 'species', note: 'Orchard & woodland edges; eats flower buds' },
+    { label: '🐦 Hawfinch',            type: 'species', note: 'Large secretive finch; hornbeam & cherry woods' },
+    { label: '🐦 Greenfinch',          type: 'species', note: 'Garden regular; declining due to trichomonosis' },
+    { label: '🐦 Yellowhammer',        type: 'species', note: 'Farmland bunting; red-listed; hedgerow nester' },
+    { label: '🐦 Reed Bunting',        type: 'species', note: 'Wetland & farmland; open-cup nest in vegetation' },
+    { label: '🐦 Corn Bunting',        type: 'species', note: 'Arable farmland; red-listed in UK' },
+    { label: '🐦 Snow Bunting',        type: 'species', note: 'Winter visitor to coasts & uplands; rare breeder' },
   ];
 
   /* Flycatchers, chats & thrushes */
@@ -123,6 +144,7 @@
   const SPECIES = [
     ...SPECIES_TITS.map(s        => ({ ...s, group: 'tits' })),
     ...SPECIES_GARDEN.map(s      => ({ ...s, group: 'small-passerines' })),
+    ...SPECIES_FINCHES.map(s     => ({ ...s, group: 'finches' })),
     ...SPECIES_FLYCATCHERS.map(s => ({ ...s, group: 'flycatchers' })),
     ...SPECIES_HIRUNDINES.map(s  => ({ ...s, group: 'hirundines' })),
     ...SPECIES_OWLS.map(s        => ({ ...s, group: 'owls' })),
@@ -159,6 +181,21 @@
     'tits':             'tits',
     'nuthatch':         'tits',
     'treecreeper':      'tits',
+    // finches & buntings
+    'finch':            'finches',
+    'finches':          'finches',
+    'bunting':          'finches',
+    'buntings':         'finches',
+    'chaffinch':        'finches',
+    'goldfinch':        'finches',
+    'greenfinch':       'finches',
+    'bullfinch':        'finches',
+    'crossbill':        'finches',
+    'siskin':           'finches',
+    'linnet':           'finches',
+    'redpoll':          'finches',
+    'hawfinch':         'finches',
+    'yellowhammer':     'finches',
     // small passerines (garden, farmyard & waterside smaller birds)
     'garden bird':      'small-passerines',
     'garden birds':     'small-passerines',
@@ -240,22 +277,56 @@
   };
 
   const ENVIRONMENTS = [
-    { label: '🌿 Garden',              type: 'environment', note: 'Domestic gardens, feeders & nest boxes' },
-    { label: '🌲 Woodland',            type: 'environment', note: 'Deciduous & mixed woodland' },
-    { label: '🌲 Conifer Forest',      type: 'environment', note: 'Pine & spruce plantation' },
-    { label: '🌾 Farmland',            type: 'environment', note: 'Arable & pasture fields, farm buildings' },
-    { label: '💧 Wetland & Marsh',     type: 'environment', note: 'Fens, bogs, reedbeds & carr woodland' },
-    { label: '🌊 River & Stream',      type: 'environment', note: 'Fast & slow-moving freshwater' },
-    { label: '🌊 Lake & Loch',         type: 'environment', note: 'Still water; reservoirs, lochs & meres' },
-    { label: '🌊 Estuary & Mudflat',   type: 'environment', note: 'Tidal mudflats & saltmarsh' },
-    { label: '🌊 Coastal & Cliff',     type: 'environment', note: 'Sea cliffs, caves & rocky shores' },
-    { label: '🏙️ Urban & Rooftop',    type: 'environment', note: 'Rooftops, ledges & urban green space' },
-    { label: '🌿 Heathland',           type: 'environment', note: 'Lowland heath; gorse & heather' },
-    { label: '🏔️ Upland & Moorland',  type: 'environment', note: 'Blanket bog, high moorland & mountain' },
-    { label: '🌿 Grassland & Meadow',  type: 'environment', note: 'Hay meadows, chalk downland & rough grass' },
-    { label: '🌿 Hedgerow & Scrub',    type: 'environment', note: 'Field boundaries, bramble & thick scrub' },
-    { label: '🌿 Nature Reserve',      type: 'environment', note: 'RSPB, Wildlife Trust & NNR managed sites' },
+    { key: 'garden',         label: '🌿 Garden',              type: 'environment', note: 'Domestic gardens, feeders & nest boxes' },
+    { key: 'woodland',       label: '🌲 Woodland',            type: 'environment', note: 'Deciduous & mixed woodland' },
+    { key: 'conifer',        label: '🌲 Conifer Forest',      type: 'environment', note: 'Pine & spruce plantation' },
+    { key: 'farmland',       label: '🌾 Farmland',            type: 'environment', note: 'Arable & pasture fields, farm buildings' },
+    { key: 'wetland',        label: '💧 Wetland & Marsh',     type: 'environment', note: 'Fens, bogs, reedbeds & carr woodland' },
+    { key: 'river',          label: '🌊 River & Stream',      type: 'environment', note: 'Fast & slow-moving freshwater' },
+    { key: 'lake',           label: '🌊 Lake & Loch',         type: 'environment', note: 'Still water; reservoirs, lochs & meres' },
+    { key: 'estuary',        label: '🌊 Estuary & Mudflat',   type: 'environment', note: 'Tidal mudflats & saltmarsh' },
+    { key: 'coastal',        label: '🌊 Coastal & Cliff',     type: 'environment', note: 'Sea cliffs, caves & rocky shores' },
+    { key: 'urban',          label: '🏙️ Urban & Rooftop',    type: 'environment', note: 'Rooftops, ledges & urban green space' },
+    { key: 'heathland',      label: '🌿 Heathland',           type: 'environment', note: 'Lowland heath; gorse & heather' },
+    { key: 'upland',         label: '🏔️ Upland & Moorland',  type: 'environment', note: 'Blanket bog, high moorland & mountain' },
+    { key: 'grassland',      label: '🌿 Grassland & Meadow',  type: 'environment', note: 'Hay meadows, chalk downland & rough grass' },
+    { key: 'hedgerow',       label: '🌿 Hedgerow & Scrub',    type: 'environment', note: 'Field boundaries, bramble & thick scrub' },
+    { key: 'nature-reserve', label: '🌿 Nature Reserve',      type: 'environment', note: 'RSPB, Wildlife Trust & NNR managed sites' },
   ];
+
+  /* Maps habitat key → species group keys commonly found there */
+  const HABITAT_GROUPS = {
+    'garden':         ['tits', 'small-passerines', 'finches', 'hirundines', 'flycatchers'],
+    'woodland':       ['tits', 'finches', 'flycatchers', 'raptors', 'owls'],
+    'conifer':        ['tits', 'finches', 'owls'],
+    'farmland':       ['small-passerines', 'finches', 'raptors', 'owls', 'fowl'],
+    'wetland':        ['waterbirds', 'small-passerines', 'seabirds'],
+    'river':          ['waterbirds', 'small-passerines'],
+    'lake':           ['waterbirds', 'seabirds'],
+    'estuary':        ['waterbirds', 'seabirds'],
+    'coastal':        ['seabirds', 'raptors'],
+    'urban':          ['small-passerines', 'hirundines', 'seabirds', 'raptors'],
+    'heathland':      ['finches', 'raptors', 'owls', 'small-passerines'],
+    'upland':         ['finches', 'raptors', 'owls'],
+    'grassland':      ['finches', 'raptors', 'owls', 'small-passerines'],
+    'hedgerow':       ['finches', 'small-passerines', 'flycatchers', 'tits'],
+    'nature-reserve': ['tits', 'finches', 'flycatchers', 'waterbirds', 'seabirds', 'raptors', 'owls'],
+  };
+
+  /* Reverse lookup: species group key → array of habitat keys (inverts HABITAT_GROUPS) */
+  const GROUP_HABITATS = {};
+  Object.entries(HABITAT_GROUPS).forEach(function ([habitatKey, groups]) {
+    groups.forEach(function (group) {
+      if (!GROUP_HABITATS[group]) GROUP_HABITATS[group] = [];
+      GROUP_HABITATS[group].push(habitatKey);
+    });
+  });
+
+  /* Reverse lookup: stripped lowercase label → environment item */
+  const ENVIRONMENT_BY_LABEL = {};
+  ENVIRONMENTS.forEach(function (e) {
+    ENVIRONMENT_BY_LABEL[e.label.replace(/^.+? /, '').toLowerCase()] = e;
+  });
 
   const LOCATIONS = [
     { label: '📍 Yorkshire',       type: 'location' },
@@ -283,16 +354,55 @@
     a.label.replace(/^.+? /, '').localeCompare(b.label.replace(/^.+? /, ''))
   );
 
+  /* ── Browse hints — meta-entries that expand into a category on selection –– */
+
+  /* One entry per species group, count derived live from SPECIES array */
+  function countGroup(g) { return SPECIES.filter(s => s.group === g).length; }
+  const SPECIES_GROUP_HINTS = [
+    { label: '🐦 Finches & Buntings',    type: 'hint', search: 'finches',        note: countGroup('finches')        + ' species' },
+    { label: '🐦 Flycatchers & Chats',   type: 'hint', search: 'flycatchers',    note: countGroup('flycatchers')    + ' species' },
+    { label: '🐾 Fowl & Poultry',         type: 'hint', search: 'fowl',            note: countGroup('fowl')            + ' species' },
+    { label: '🐦 Hirundines & Swifts',   type: 'hint', search: 'hirundines',     note: countGroup('hirundines')     + ' species' },
+    { label: '🦉 Owls',                   type: 'hint', search: 'owls',            note: countGroup('owls')            + ' species' },
+    { label: '🦅 Raptors & Corvids',      type: 'hint', search: 'raptors',         note: countGroup('raptors')         + ' species' },
+    { label: '🐦 Seabirds & Gulls',       type: 'hint', search: 'seabirds',        note: countGroup('seabirds')        + ' species' },
+    { label: '🐦 Small Passerines',       type: 'hint', search: 'garden birds',    note: countGroup('small-passerines') + ' species' },
+    { label: '🐦 Tits & Woodland',        type: 'hint', search: 'tits',            note: countGroup('tits')            + ' species' },
+    { label: '🦆 Waterbirds & Ducks',     type: 'hint', search: 'waterbirds',      note: countGroup('waterbirds')      + ' species' },
+  ];
+
+  /* Maps typed terms to a result-set strategy: { type } filters by item type,
+     { hints } renders a fixed hint list, { group } delegates to GROUP_ALIASES */
+  const TYPE_ALIASES = {
+    'species':          { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
+    'species group':    { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
+    'species groups':   { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
+    'bird group':       { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
+    'bird groups':      { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
+    'groups':           { hints: SPECIES_GROUP_HINTS,  heading: 'Browse by species group' },
+    'location':         { type:  'location',           heading: 'All locations' },
+    'locations':        { type:  'location',           heading: 'All locations' },
+    'area':             { type:  'location',           heading: 'All locations' },
+    'areas':            { type:  'location',           heading: 'All locations' },
+    'region':           { type:  'location',           heading: 'All locations' },
+    'regions':          { type:  'location',           heading: 'All locations' },
+    'environment':      { type:  'environment',        heading: 'All environments' },
+    'environments':     { type:  'environment',        heading: 'All environments' },
+    'habitat':          { type:  'environment',        heading: 'All environments' },
+    'habitats':         { type:  'environment',        heading: 'All environments' },
+  };
+
   /* Popular picks shown before the user types */
   const DEFAULTS = [
+    { label: '🐦 Browse by species group', type: 'hint', search: 'species',   note: 'Owls, raptors, finches, seabirds…' },
+    { label: '📍 Browse all locations',    type: 'hint', search: 'locations', note: 'UK regions & areas' },
+    { label: '🌿 Browse all habitats',     type: 'hint', search: 'habitats',  note: 'Garden, woodland, wetland…' },
     SPECIES.find(s => s.label.includes('Blue Tit')),
     SPECIES.find(s => s.label.includes('Robin')),
     SPECIES.find(s => s.label.includes('Barn Owl')),
     SPECIES.find(s => s.label.includes('Common Swift')),
     SPECIES.find(s => s.label.includes('Kingfisher')),
-    SPECIES.find(s => s.label.includes('Mandarin Duck')),
     LOCATIONS.find(l => l.label.includes('Yorkshire')),
-    LOCATIONS.find(l => l.label.includes('Scotland')),
     LOCATIONS.find(l => l.label.includes('Norfolk')),
   ].filter(Boolean);
 
@@ -316,21 +426,42 @@
       list.appendChild(h);
     }
     /* Show more results for full-category views, cap at 8 for filtered searches */
-    const limit = heading && heading.startsWith('All ') ? 20 : 8;
+    const limit = heading ? 20 : 8;
     matches.slice(0, limit).forEach(function (item, i) {
+      /* Section divider — non-interactive inline heading injected into match arrays */
+      if (item.type === 'section-heading') {
+        const h = document.createElement('li');
+        h.className = 'hub-suggestion-heading hub-suggestion-heading--inline';
+        h.textContent = item.text;
+        h.setAttribute('aria-hidden', 'true');
+        list.appendChild(h);
+        return;
+      }
       const li = document.createElement('li');
       li.setAttribute('role', 'option');
       li.setAttribute('data-index', i);
       const typeClass = item.type === 'species'     ? ' is-species'
                         : item.type === 'environment' ? ' is-environment'
+                        : item.type === 'hint'        ? ' is-hint'
                         : ' is-location';
       li.className = 'hub-suggestion-item' + typeClass;
-      li.innerHTML = '<span class="sug-label">' + item.label + '</span>' +
+      const arrow = item.type === 'hint' ? '<span class="sug-arrow">›</span>' : '';
+      li.innerHTML = arrow + '<span class="sug-label">' + item.label + '</span>' +
         (item.note ? '<span class="sug-note">' + item.note + '</span>' : '');
       li.addEventListener('mousedown', function (e) {
         e.preventDefault();
-        input.value = item.label.replace(/^.+? /, '');
-        hide();
+        if (item.type === 'hint') {
+          /* Hints expand into their target category rather than filling the input */
+          input.value = item.search;
+          input.dispatchEvent(new Event('input'));
+        } else if (item.type === 'environment') {
+          /* Environments re-run the filter so related species appear below */
+          input.value = item.label.replace(/^.+? /, '');
+          input.dispatchEvent(new Event('input'));
+        } else {
+          input.value = item.label.replace(/^.+? /, '');
+          hide();
+        }
         input.focus();
       });
       list.appendChild(li);
@@ -366,6 +497,28 @@
   input.addEventListener('input', function () {
     const q = input.value.trim().toLowerCase();
     if (q.length < 1) { showDefaults(); return; }
+    /* 1. Check TYPE_ALIASES (locations / habitats / species groups) */
+    const typeAlias = TYPE_ALIASES[q];
+    if (typeAlias) {
+      if (typeAlias.hints) { render(typeAlias.hints, typeAlias.heading); return; }
+      render(ALL_SUGGESTIONS.filter(item => item.type === typeAlias.type), typeAlias.heading);
+      return;
+    }
+    /* 2. Check if the query exactly matches an environment label — if so,
+          show the habitat entry followed by species commonly found there */
+    const matchedEnv = ENVIRONMENT_BY_LABEL[q];
+    if (matchedEnv) {
+      const groups = HABITAT_GROUPS[matchedEnv.key] || [];
+      const relatedSpecies = SPECIES.filter(s => groups.includes(s.group));
+      const combined = [
+        matchedEnv,
+        { type: 'section-heading', text: 'Common species in this habitat' },
+        ...relatedSpecies,
+      ];
+      render(combined, matchedEnv.label.replace(/^.+? /, '') + ' — birds & habitat');
+      return;
+    }
+    /* 3. Check GROUP_ALIASES (raptors / owls / finches …) */
     const targetGroup = GROUP_ALIASES[q] || null;
     const matches = ALL_SUGGESTIONS.filter(function (item) {
       if (item.group) {
@@ -374,7 +527,24 @@
       }
       return item.label.toLowerCase().includes(q);
     });
-    render(matches, targetGroup ? ('All ' + targetGroup) : null);
+    /* When species appear in results, suggest the habitats where those groups live */
+    const speciesMatches = matches.filter(function (m) { return m.type === 'species'; });
+    const relatedEnvs = (function () {
+      if (!speciesMatches.length) return [];
+      const groups = [...new Set(speciesMatches.map(function (s) { return s.group; }).filter(Boolean))];
+      const habitatKeys = [...new Set(groups.reduce(function (acc, g) { return acc.concat(GROUP_HABITATS[g] || []); }, []))];
+      return habitatKeys
+        .map(function (k) { return ENVIRONMENTS.find(function (e) { return e.key === k; }); })
+        .filter(Boolean)
+        .slice(0, 5);
+    })();
+    const augmented = relatedEnvs.length
+      ? [...matches, { type: 'section-heading', text: 'Also found in…' }, ...relatedEnvs]
+      : matches;
+    const heading = targetGroup
+      ? ('All ' + targetGroup)
+      : (relatedEnvs.length ? 'Matching birds & habitats' : null);
+    render(augmented, heading);
   });
 
   input.addEventListener('keydown', function (e) {
