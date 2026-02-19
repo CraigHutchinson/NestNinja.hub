@@ -41,14 +41,37 @@ body::before {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
 }
 
+/* Logo — hide text, show image (same technique as NestNinja.uk) */
 .site-title {
-  color: var(--hub-teal) !important;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-size: 0 !important;
+  padding: 0;
+  line-height: 0;
 }
 
-.site-title:visited { color: var(--hub-teal) !important; }
-.site-title:hover   { color: #fff !important; text-decoration: none; }
+.site-title::before {
+  content: '';
+  display: inline-block;
+  width: 200px;
+  height: 50px;
+  background-image: url('/assets/images/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left center;
+  vertical-align: middle;
+  /* Invert to white for the dark hub header */
+  filter: brightness(0) invert(1);
+}
+
+.site-title:hover {
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  .site-title::before {
+    width: 160px;
+    height: 40px;
+  }
+}
 
 .site-nav .page-link {
   color: rgba(255, 255, 255, 0.85);
