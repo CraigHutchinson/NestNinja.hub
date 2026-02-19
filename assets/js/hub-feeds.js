@@ -65,8 +65,11 @@
 
   function renderFooter(feed) {
     var feedUrl = '/feeds/' + feed.slug + '/';
+    var isDemo = feed.slug.indexOf('demo_') === 0;
     var ownerHtml = '<span class="hub-feed-owner">'
-      + (feed.lastActive ? 'Last active ' + esc(feed.lastActive) : '▶ Example YouTube video')
+      + (isDemo
+        ? '🧪 Demo — simulated data'
+        : (feed.lastActive ? 'Last active ' + esc(feed.lastActive) : '▶ Live stream'))
       + '</span>';
     var watchHtml = feed.watchUrl
       ? '<a href="' + esc(feed.watchUrl) + '" target="_blank" rel="noopener" class="hub-feed-watch">Full screen ↗</a>'
@@ -90,7 +93,8 @@
       '    <span class="hub-feed-status ' + sc.cls + '">' + sc.label + '</span>',
       '  </div>',
       '  <div class="hub-feed-info">',
-      '    <h3 class="hub-feed-title"><a href="' + esc(feedUrl) + '" class="hub-feed-title-link">' + esc(feed.title) + '</a></h3>',
+      '    <h3 class="hub-feed-title"><a href="' + esc(feedUrl) + '" class="hub-feed-title-link">' + esc(feed.title) + '</a>'
+      + (feed.slug.indexOf('demo_') === 0 ? '<span class="hub-feed-demo-badge">Demo</span>' : '') + '</h3>',
       '    <p class="hub-feed-location">📍 ' + esc(feed.location) + '</p>',
       '    <div class="hub-feed-species">' + renderSpeciesTags(feed.species) + '</div>',
       '    <div class="hub-feed-footer">' + renderFooter(feed) + '</div>',

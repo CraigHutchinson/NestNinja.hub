@@ -4,7 +4,7 @@ title: About NestNinja Hub
 permalink: /about/
 ---
 
-NestNinja Hub is the **community discovery platform** for [NestNinja](https://nestninja.uk) smart bird box cameras.
+NestNinja Hub is the **community discovery platform** for [NestNinja]({{ site.uk_url }}) smart bird box cameras.
 
 It allows NestNinja device owners to **optionally share** their live camera feeds so other bird watchers can browse and watch nesting activity from around the UK.
 
@@ -32,7 +32,7 @@ Core NestNinja firmware development takes priority (targeting late 2026).
 
 ## Get a NestNinja
 
-Hub only works with registered NestNinja devices. Visit [nestninja.uk](https://nestninja.uk) to find the right option for you.
+Hub only works with registered NestNinja devices. Visit [nestninja.uk]({{ site.uk_url }}) to find the right option for you.
 
 ---
 

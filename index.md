@@ -26,7 +26,7 @@ title: ""
   <p class="hub-search-note">✨ Try searching for a species or location to see demo results</p>
 
   <div class="cta-buttons">
-    <a href="https://nestninja.uk" class="btn btn-primary">Get a NestNinja →</a>
+    <a href="{{ site.uk_url }}" class="btn btn-primary">Get a NestNinja →</a>
     <a href="https://twitter.com/NestNinjaUK" class="btn btn-secondary">Follow for updates</a>
   </div>
 </div>
@@ -68,7 +68,7 @@ Hub is the **community discovery layer** for NestNinja devices. Once live, owner
 
 ## How will it work?
 
-1. **Set up a NestNinja device** — [nestninja.uk](https://nestninja.uk) for hardware options
+1. **Set up a NestNinja device** — [nestninja.uk]({{ site.uk_url }}) for hardware options
 2. **Opt in to sharing** — enable feed listing in your NestNinja settings
 3. **Your box appears on Hub** — other users can browse and watch your stream
 4. **Change your mind?** — opt out any time; your feed stops appearing immediately

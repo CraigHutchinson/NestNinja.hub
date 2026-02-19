@@ -86,6 +86,21 @@
     return day + '\u00a0' + mon + '\u00a0' + yr + ', ' + hh + ':' + mm;
   }
 
+  /* ── Demo feed detection ──────────────────────────────────────────────────── */
+  function isDemo(feed) {
+    return feed.slug.indexOf('demo_') === 0;
+  }
+
+  function renderDemoBanner() {
+    return [
+      '<div class="feed-demo-banner">',
+      '  <span aria-hidden="true">🧪</span>',
+      '  <span><strong>Demo feed</strong> — this box, its diary, and all logged events are entirely',
+      '  simulated for illustration purposes. No real camera exists at this location.</span>',
+      '</div>',
+    ].join('\n');
+  }
+
   /* ── Hero section ───────────────────────────────────────────────────────── */
   function renderHero(feed) {
     if (feed.videoId) {
@@ -171,10 +186,13 @@
       ].join('\n');
     }).join('\n');
 
+    var diaryNote = isDemo(feed)
+      ? '⚠️ All entries below are simulated demo data — timestamps, events, and owner notes are entirely fictional.'
+      : 'Events logged automatically by the NestNinja device and supplemented with owner notes.';
     return [
       '<main class="feed-diary">',
       '  <h2>📒 Nest diary</h2>',
-      '  <p class="feed-diary-note">Events logged automatically by the NestNinja device and supplemented with owner notes.</p>',
+      '  <p class="feed-diary-note">' + diaryNote + '</p>',
       entries.length
         ? '<ol class="feed-diary-list">' + entries + '</ol>'
         : '<p class="feed-diary-empty">No diary entries yet — check back soon.</p>',
@@ -184,11 +202,15 @@
 
   /* ── Full page renderer ─────────────────────────────────────────────────── */
   function renderPage(container, feed) {
+    var footerNote = isDemo(feed)
+      ? '🧪 This is a simulated demo feed. All content is fictional and for illustration purposes only.'
+      : '🔒 This camera owner has opted in to share their feed publicly.';
     container.innerHTML = [
       '<div class="feed-page">',
       '  <div class="feed-page-back">',
       '    <a href="/search/" class="btn-back">← Back to results</a>',
       '  </div>',
+      '  ' + (isDemo(feed) ? renderDemoBanner() : ''),
       '  ' + renderHero(feed),
       '  ' + renderMetaBar(feed),
       '  <hr>',
@@ -197,7 +219,7 @@
       '    ' + renderDiary(feed),
       '  </div>',
       '  <div class="feed-page-footer">',
-      '    <p>🔒 This camera owner has opted in to share their feed publicly.</p>',
+      '    <p>' + footerNote + '</p>',
       '    <a href="/search/" class="btn btn-primary">← Browse all feeds</a>',
       '  </div>',
       '</div>',

@@ -11,6 +11,7 @@ description: >-
 # Site settings
 baseurl: ""
 url: "https://hub.nestninja.uk"
+uk_url: "https://nestninja.uk" # Cross-site link to NestNinja.uk — overridden in _config.local.yml for local dev
 author:
   name: NestNinja Team
 email: "hello@nestninja.uk"

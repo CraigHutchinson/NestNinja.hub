@@ -1,0 +1,9 @@
+# Local development overrides for NestNinja.hub
+# Used via: bundle exec jekyll serve --config _config.yml,_config.local.yml
+#
+# Overrides the production URLs so cross-site links resolve to the
+# sibling Jekyll server running locally (see Serve-Local.ps1 at the
+# workspace root to start both sites at once).
+
+url: "http://localhost:4001"
+uk_url: "http://localhost:4000"
