@@ -16,7 +16,10 @@ title: ""
   <div class="hub-search-wrap">
     <div class="hub-search">
       <input type="text" id="hub-search-input" placeholder="Search by location or species…" autocomplete="off" aria-label="Search bird boxes by location or species" aria-autocomplete="list" aria-controls="hub-suggestions">
-      <button id="hub-search-btn" disabled title="Live search coming soon">Search</button>
+      <button id="hub-search-btn" disabled title="Live search coming soon">
+        <span class="btn-icon" aria-hidden="true">🔍</span>
+        <span class="btn-text">Search</span>
+      </button>
     </div>
     <ul class="hub-suggestions" id="hub-suggestions" role="listbox" aria-hidden="true"></ul>
   </div>

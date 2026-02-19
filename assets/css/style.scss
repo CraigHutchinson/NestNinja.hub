@@ -195,6 +195,29 @@ body::before {
   font-weight: 600;
   cursor: not-allowed;
   font-size: 1rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+@media (max-width: 540px) {
+  .hub-search button {
+    padding: 0.75rem 0.9rem;
+  }
+  .hub-search button .btn-text {
+    display: none;
+  }
+  .page-content .wrapper {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .page-content .wrapper {
+    padding: 0.75rem;
+  }
+  .hub-search button {
+    padding: 0.75rem 0.65rem;
+  }
 }
 
 .hub-search-note {
@@ -250,6 +273,13 @@ body::before {
   user-select: none;
 }
 
+/* Inline divider between sections within a single result list */
+.hub-suggestion-heading--inline {
+  margin-top: 0.25rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(13, 148, 136, 0.2);
+}
+
 .hub-suggestion-item {
   display: flex;
   align-items: baseline;
@@ -281,9 +311,17 @@ body::before {
   white-space: nowrap;
 }
 
-.hub-suggestion-item.is-species .sug-label     { color: #86efac; }  /* green  — species   */
-.hub-suggestion-item.is-environment .sug-label { color: #fcd34d; }  /* amber  — habitat   */
-.hub-suggestion-item.is-location .sug-label    { color: #7dd3fc; }  /* blue   — location  */
+.hub-suggestion-item.is-species .sug-label     { color: #86efac; }  /* green   — species      */
+.hub-suggestion-item.is-environment .sug-label { color: #fcd34d; }  /* amber   — habitat      */
+.hub-suggestion-item.is-location .sug-label    { color: #7dd3fc; }  /* blue    — location     */
+.hub-suggestion-item.is-hint .sug-label        { color: #c4b5fd; }  /* lavender — browse hint */
+
+.sug-arrow {
+  font-size: 1rem;
+  color: rgba(196, 181, 253, 0.5);
+  margin-right: 0.3rem;
+  flex-shrink: 0;
+}
 
 /* ─── Coming soon card grid ───────────────────────────────────────────────── */
 .hub-feature-grid {
