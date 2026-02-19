@@ -75,15 +75,22 @@
     { label: '🦉 Long-eared Owl',     type: 'species', note: 'Conifer plantation; uses open basket platforms' },
   ];
 
-  /* Raptors & corvids */
+  /* Raptors, corvids & woodpeckers */
   const SPECIES_RAPTORS = [
-    { label: '🦅 Common Kestrel',     type: 'species', note: 'Open farmland; tall pole or tower boxes' },
-    { label: '🦅 Peregrine Falcon',   type: 'species', note: 'Cliff ledge trays; now also urban buildings' },
-    { label: '🐦 Jackdaw',            type: 'species', note: 'Will take over large chimney boxes' },
-    { label: '🐦 Stock Dove',         type: 'species', note: 'Farmland; uses barn-owl style boxes' },
-    { label: '🐦 Great Spotted Woodpecker', type: 'species', note: 'Excavates own holes; may enlarge box entrance' },
-    { label: '🐦 Lesser Spotted Woodpecker', type: 'species', note: 'Tiny; declining woodland specialist' },
-    { label: '🐦 Green Woodpecker',   type: 'species', note: 'Ant specialist; rarely uses boxes' },
+    { label: '🦅 Common Kestrel',          type: 'species', note: 'Open farmland; tall pole or tower boxes' },
+    { label: '🦅 Peregrine Falcon',        type: 'species', note: 'Cliff ledge trays; now also urban buildings' },
+    { label: '🐦 Carrion Crow',            type: 'species', note: 'Highly intelligent; uses ledges & large trees' },
+    { label: '🐦 Hooded Crow',             type: 'species', note: 'Grey & black; replaces Carrion Crow in Scotland & Ireland' },
+    { label: '🐦 Rook',                    type: 'species', note: 'Colonial treetop nester; rookeries in tall elms & beeches' },
+    { label: '🐦 Jackdaw',                 type: 'species', note: 'Will take over large chimney & cavity boxes' },
+    { label: '🐦 Raven',                   type: 'species', note: 'Largest corvid; cliff ledge & crag nester' },
+    { label: '🐦 Magpie',                  type: 'species', note: 'Dome-shaped stick nest in dense shrubs & trees' },
+    { label: '🐦 Jay',                     type: 'species', note: 'Secretive woodland corvid; acorn specialist' },
+    { label: '🐦 Chough',                  type: 'species', note: 'Red bill & legs; cliff caves & old mine entrances' },
+    { label: '🐦 Stock Dove',              type: 'species', note: 'Farmland; uses barn-owl style boxes' },
+    { label: '🐦 Great Spotted Woodpecker',type: 'species', note: 'Excavates own holes; may enlarge box entrance' },
+    { label: '🐦 Lesser Spotted Woodpecker',type: 'species', note: 'Tiny; declining woodland specialist' },
+    { label: '🐦 Green Woodpecker',        type: 'species', note: 'Ant specialist; rarely uses boxes' },
   ];
 
   /* Waterbirds & ducks */
@@ -169,6 +176,19 @@
     'hawk':             'raptors',
     'corvid':           'raptors',
     'corvids':          'raptors',
+    'crow':             'raptors',
+    'crows':            'raptors',
+    'rook':             'raptors',
+    'rooks':            'raptors',
+    'raven':            'raptors',
+    'ravens':           'raptors',
+    'magpie':           'raptors',
+    'magpies':          'raptors',
+    'jay':              'raptors',
+    'jays':             'raptors',
+    'jackdaw':          'raptors',
+    'jackdaws':         'raptors',
+    'chough':           'raptors',
     'woodpecker':       'raptors',
     'woodpeckers':      'raptors',
     // owls
