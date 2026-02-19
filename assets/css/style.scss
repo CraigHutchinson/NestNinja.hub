@@ -193,10 +193,12 @@ body::before {
   border: none;
   color: #fff;
   font-weight: 600;
-  cursor: not-allowed;
+  cursor: pointer;
   font-size: 1rem;
   white-space: nowrap;
   flex-shrink: 0;
+  transition: background 0.15s;
+  &:hover { background: var(--hub-teal-dark); }
 }
 
 @media (max-width: 540px) {
@@ -423,4 +425,374 @@ body::before {
 /* ─── Divider ─────────────────────────────────────────────────────────────── */
 hr {
   border-color: rgba(13, 148, 136, 0.2);
+}
+
+/* ─── Search Results Page ─────────────────────────────────────────────────── */
+.hub-search-page {
+  padding-bottom: 3rem;
+}
+
+/* Search header bar (inline, compact — replaces the hero) */
+.hub-search-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0 1rem;
+  border-bottom: 1px solid rgba(13, 148, 136, 0.2);
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.btn-back {
+  color: var(--hub-teal);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  &:hover { color: #fff; text-decoration: none; }
+}
+
+/* Allow the search to grow to fill available space inside the header */
+.hub-search-wrap--inline {
+  flex: 1;
+  min-width: 220px;
+  margin: 0;
+}
+.hub-search-wrap--inline .hub-search {
+  max-width: 100%;
+}
+
+/* Enable the search button on the results page */
+.hub-search-page .hub-search button {
+  cursor: pointer;
+}
+
+/* Results meta: count + filter pills */
+.hub-results-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.hub-results-count {
+  margin: 0;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.6);
+  strong { color: #fff; }
+}
+
+/* Struck-through query text — signals demo data isn’t actually being filtered */
+.hub-query-strike {
+  text-decoration: line-through;
+  text-decoration-color: #f87171;
+  text-decoration-thickness: 2px;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: normal;
+}
+
+.hub-query-demo-note {
+  font-size: 0.78rem;
+  color: #f87171;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+/* Filter pills */
+.hub-filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.hub-pill {
+  padding: 0.3rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border: 1px solid rgba(13, 148, 136, 0.35);
+  background: rgba(13, 148, 136, 0.07);
+  color: rgba(255, 255, 255, 0.65);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  &:hover {
+    background: rgba(13, 148, 136, 0.18);
+    color: #fff;
+    border-color: var(--hub-teal);
+  }
+  &.hub-pill--active {
+    background: var(--hub-teal);
+    border-color: var(--hub-teal);
+    color: #fff;
+  }
+}
+
+/* Demo notice banner */
+.hub-demo-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(253, 224, 71, 0.07);
+  border: 1px solid rgba(253, 224, 71, 0.25);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.83rem;
+  color: rgba(253, 224, 71, 0.75);
+  margin-bottom: 1.5rem;
+}
+
+/* ─── Feed card grid ──────────────────────────────────────────────────────── */
+.hub-feed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Individual feed card */
+.hub-feed-card {
+  border-radius: 12px;
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    border-color: var(--hub-teal);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  &.hub-feed-card--offline {
+    opacity: 0.75;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* 16:9 video embed container */
+.hub-feed-video {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 */
+  background: #0a1628;
+  overflow: hidden;
+
+  iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+}
+
+/* Static thumbnail for offline/placeholder cards */
+.hub-feed-thumb {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.45) grayscale(0.4);
+}
+
+/* Playable thumbnails (non-offline) — brighter, with hover dim */
+.hub-feed-thumb--playable {
+  filter: brightness(0.72);
+  transition: filter 0.2s;
+  cursor: pointer;
+
+  &:hover,
+  &.is-playing {
+    filter: brightness(1);
+  }
+
+  /* Hide the play overlay once the iframe is injected */
+  &.is-playing .hub-play-btn {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* Play button overlay */
+.hub-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(13, 148, 136, 0.85);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, transform 0.15s, opacity 0.2s;
+  z-index: 2;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+    margin-left: 3px; /* optical centre for the play triangle */
+  }
+
+  &:hover {
+    background: var(--hub-teal-dark);
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+}
+
+/* Status badge overlaid on the video */
+.hub-feed-status {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+  z-index: 1;
+
+  &.hub-feed-status--live {
+    background: rgba(220, 38, 38, 0.75);
+    color: #fff;
+  }
+  &.hub-feed-status--recording {
+    background: rgba(22, 163, 74, 0.75);
+    color: #fff;
+  }
+  &.hub-feed-status--offline {
+    background: rgba(71, 85, 105, 0.80);
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+/* Card info section */
+.hub-feed-info {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.hub-feed-title {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.hub-feed-location {
+  margin: 0 0 0.6rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Species tag row */
+.hub-feed-species {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.hub-species-tag {
+  padding: 0.18rem 0.55rem;
+  border-radius: 10px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: rgba(134, 239, 172, 0.12);
+  border: 1px solid rgba(134, 239, 172, 0.25);
+  color: #86efac;
+
+  &.hub-species-tag--owl {
+    background: rgba(253, 186, 116, 0.12);
+    border-color: rgba(253, 186, 116, 0.3);
+    color: #fdba74;
+  }
+  &.hub-species-tag--swift {
+    background: rgba(147, 197, 253, 0.12);
+    border-color: rgba(147, 197, 253, 0.3);
+    color: #93c5fd;
+  }
+  &.hub-species-tag--waterbird {
+    background: rgba(125, 211, 252, 0.12);
+    border-color: rgba(125, 211, 252, 0.3);
+    color: #7dd3fc;
+  }
+}
+
+/* Footer row: owner label + watch link */
+.hub-feed-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.hub-feed-owner {
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hub-feed-watch {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--hub-teal);
+  white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
+  &:hover { color: #fff; text-decoration: none; }
+  &.hub-feed-watch--none {
+    color: rgba(255, 255, 255, 0.25);
+    cursor: default;
+  }
+}
+
+/* Results page footer */
+.hub-results-footer {
+  text-align: center;
+  padding: 1.5rem 0 0.5rem;
+  border-top: 1px solid rgba(13, 148, 136, 0.15);
+
+  p {
+    margin: 0.4rem 0;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  a {
+    color: var(--hub-teal);
+    &:hover { color: #fff; }
+  }
+}
+
+/* ─── Responsive adjustments for search page ──────────────────────────────── */
+@media (max-width: 640px) {
+  .hub-search-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hub-search-wrap--inline {
+    width: 100%;
+  }
+  .hub-results-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hub-feed-grid {
+    grid-template-columns: 1fr;
+  }
 }

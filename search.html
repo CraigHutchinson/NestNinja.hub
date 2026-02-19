@@ -1,0 +1,61 @@
+---
+layout: home
+title: "Search — NestNinja Hub"
+permalink: /search/
+---
+
+<div class="hub-search-page">
+
+  <!-- Search header -->
+  <div class="hub-search-header">
+    <div class="hub-search-back">
+      <a href="/" class="btn-back">← Back</a>
+    </div>
+    <div class="hub-search-wrap hub-search-wrap--inline">
+      <div class="hub-search">
+        <input type="text" id="hub-search-input" autocomplete="off"
+               placeholder="Search by location or species…"
+               aria-label="Search bird boxes by location or species"
+               aria-autocomplete="list" aria-controls="hub-suggestions">
+        <button id="hub-search-btn">
+          <span class="btn-icon" aria-hidden="true">🔍</span>
+          <span class="btn-text">Search</span>
+        </button>
+      </div>
+      <ul class="hub-suggestions" id="hub-suggestions" role="listbox" aria-hidden="true"></ul>
+    </div>
+  </div>
+
+  <!-- Results meta row -->
+  <div class="hub-results-meta">
+    <p class="hub-results-count">
+      Showing <strong id="hub-result-count">…</strong> demo feeds
+      <span id="hub-results-query-wrap"> for <s class="hub-query-strike" id="hub-results-query"></s> <span class="hub-query-demo-note">(demo&nbsp;data&nbsp;only)</span></span>
+    </p>
+    <div class="hub-filter-pills">
+      <button class="hub-pill hub-pill--active" data-filter="all"      aria-pressed="true" >All feeds</button>
+      <button class="hub-pill"                  data-filter="live"     aria-pressed="false">🔴 Live</button>
+      <button class="hub-pill"                  data-filter="blue-tit" aria-pressed="false">🐦 Blue Tit</button>
+      <button class="hub-pill"                  data-filter="owls"     aria-pressed="false">🦉 Owls</button>
+      <button class="hub-pill"                  data-filter="near-me"  aria-pressed="false">📍 Near me</button>
+    </div>
+  </div>
+
+  <!-- Demo notice -->
+  <div class="hub-demo-notice">
+    🎬 Demo mode — illustrative YouTube clips shown as feed previews.
+    Live nest camera feeds launch with NestNinja Hub.
+  </div>
+
+  <!-- Feed grid — populated by hub-feeds.js -->
+  <div class="hub-feed-grid" id="hub-feed-grid"></div>
+
+  <div class="hub-results-footer">
+    <p>🔒 These camera owners have opted in to share their feeds publicly.</p>
+    <p>Want to share your NestNinja feed? <a href="https://nestninja.uk">Get a NestNinja device →</a></p>
+  </div>
+
+</div><!-- /hub-search-page -->
+
+<script src="/assets/js/hub-search.js"></script>
+<script src="/assets/js/hub-feeds.js"></script>

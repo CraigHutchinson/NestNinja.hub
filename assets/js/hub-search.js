@@ -522,6 +522,15 @@
     render(augmented, heading);
   });
 
+  /* ── Search navigation ──────────────────────────────────────────────── */
+
+  /* Navigate to /search/?q=... with the current input value */
+  function doSearch() {
+    var q = input.value.trim();
+    if (!q) return;
+    window.location.href = '/search/?q=' + encodeURIComponent(q);
+  }
+
   input.addEventListener('keydown', function (e) {
     const items = list.querySelectorAll('.hub-suggestion-item');
     if (e.key === 'ArrowDown' && !list.classList.contains('is-open')) {
@@ -530,12 +539,22 @@
       setActive(0);
       return;
     }
+    /* Enter with dropdown closed → go to results page */
+    if (e.key === 'Enter' && !list.classList.contains('is-open')) {
+      e.preventDefault(); doSearch(); return;
+    }
     if (!list.classList.contains('is-open')) return;
     if      (e.key === 'ArrowDown')                  { e.preventDefault(); setActive(Math.min(activeIndex + 1, items.length - 1)); }
     else if (e.key === 'ArrowUp')                    { e.preventDefault(); setActive(Math.max(activeIndex - 1, 0)); }
     else if (e.key === 'Enter' && activeIndex >= 0)  { e.preventDefault(); items[activeIndex].dispatchEvent(new MouseEvent('mousedown')); }
+    /* Enter with dropdown open but no item highlighted → search */
+    else if (e.key === 'Enter')                      { e.preventDefault(); doSearch(); }
     else if (e.key === 'Escape')                     { hide(); }
   });
+
+  /* Search button click */
+  var btn = document.getElementById('hub-search-btn');
+  if (btn) btn.addEventListener('click', function () { doSearch(); });
 
   document.addEventListener('click', function (e) {
     if (!input.contains(e.target) && !list.contains(e.target)) hide();

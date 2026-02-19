@@ -16,14 +16,14 @@ title: ""
   <div class="hub-search-wrap">
     <div class="hub-search">
       <input type="text" id="hub-search-input" placeholder="Search by location or species…" autocomplete="off" aria-label="Search bird boxes by location or species" aria-autocomplete="list" aria-controls="hub-suggestions">
-      <button id="hub-search-btn" disabled title="Live search coming soon">
+      <button id="hub-search-btn" title="Search demo feeds">
         <span class="btn-icon" aria-hidden="true">🔍</span>
         <span class="btn-text">Search</span>
       </button>
     </div>
     <ul class="hub-suggestions" id="hub-suggestions" role="listbox" aria-hidden="true"></ul>
   </div>
-  <p class="hub-search-note">🔒 Demo suggestions only — live search launches with Hub</p>
+  <p class="hub-search-note">✨ Try searching for a species or location to see demo results</p>
 
   <div class="cta-buttons">
     <a href="https://nestninja.uk" class="btn btn-primary">Get a NestNinja →</a>
